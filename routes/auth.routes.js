@@ -53,6 +53,7 @@ router.post('/login', async (req, res) => {
       /* const sessionUser = structuredClone(currentUser)
       delete sessionUser.password */
       req.session.user = currentUser
+      //console.log(req.session.user)
       res.redirect('/profile')
     } else {
       // What to do if I have a user and an incorrect password
