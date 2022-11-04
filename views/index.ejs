@@ -1,18 +1,22 @@
 <h1> 🚀</h1>
 <p>Welcome</p>
 
-<% randomProducts.forEach(product=> { %>
-    <div class="product-item">
-        <h3>
-            <%= product.name %> - <%= product.date %>
-        </h3>
-        <ul>
-            <% product.description.forEach(elem=> { %>
-                <li>
-                    <%= elem %>
-                </li>
-            <% }) %>
-        </ul>
-        <img src="<%= product.picture%>" alt="" />
-    </div>
-<% }) %>
+<% if (!randomProducts) { %>
+    <h2>No Products Yet</h2>
+<% } else { %>
+    <% randomProducts.forEach(product=> { %>
+        <div class="product-item">
+            <h3>
+                <%= product.name %> - <%= product.date %>
+            </h3>
+            <ul>
+                <% product.description.forEach(elem=> { %>
+                    <li>
+                        <%= elem %>
+                    </li>
+                    <% }) %>
+            </ul>
+            <img src="<%= product.picture%>" alt="" />
+        </div>
+        <% }) %>
+<% } %>
