@@ -26,6 +26,7 @@ router.post('/create',async(req, res, next) => {
   try {
     await Product.create({
       name: req.body.name,
+      date: req.body.date,
       region: req.body.region,
       description: req.body.description,
       picture: req.body.picture,
