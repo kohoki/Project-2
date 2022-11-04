@@ -5,8 +5,19 @@ const Product = require('../models/Product.model')
 /* GET home page */
 router.get("/", async(req, res, next) => {
   const product = await Product.find();
-  console.log(product)
-  res.render("index", {product});
+  let randomNumbers = [];
+  while (randomNumbers.length < 4) {
+    let number = Math.floor(Math.random() * (product.length - 1) + 1);
+    if (randomNumbers.indexOf(number) === -1) {
+      randomNumbers.push(number);
+    }
+  }
+  let randomProducts = [];
+  randomNumbers.forEach(element => {
+    randomProducts.push(product[element])
+  });
+  console.log(randomProducts)
+  res.render("index", {randomProducts});
 });
 
 router.get('/profile', (req, res) => {

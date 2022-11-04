@@ -2,5 +2,7 @@
 <p>Welcome</p>
 
 <div class="product-item">
-<h3><%= product[0].name%></h3>
+<% randomProducts.forEach(product => { %>
+ <h3> <%= product.name %> - <%= product.date %></h3>
+<% }) %>
 </div>
