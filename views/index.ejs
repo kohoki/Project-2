@@ -1,8 +1,8 @@
 <h1> 🚀</h1>
 <p>Welcome</p>
 
-<div class="product-item">
-    <% randomProducts.forEach(product=> { %>
+<% randomProducts.forEach(product=> { %>
+    <div class="product-item">
         <h3>
             <%= product.name %> - <%= product.date %>
         </h3>
@@ -11,7 +11,8 @@
                 <li>
                     <%= elem %>
                 </li>
-                <% }) %>
+            <% }) %>
         </ul>
-        <% }) %>
-</div>
+        <img src="<%= product.picture%>" alt="" />
+    </div>
+<% }) %>
