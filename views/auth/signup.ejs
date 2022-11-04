@@ -1,2 +1,16 @@
 <h1>Sign Up</h1>
 
+<h1>Sign up</h1>
+<form method="POST" action="/auth/signup">
+  <label>Username:<input type="text" name="username" required /></label>
+  <label
+    >Email:<input <% if (typeof errorMessage !== "undefined") { %> style="border-color: red;" <% }
+    %> type="email" name="email" required /></label
+  >
+  <label>Password:<input type="password" name="password" required /></label>
+  <button type="submit">Sign Up</button>
+</form>
+
+<% if (typeof errorMessage !== "undefined") { %>
+<p><%= errorMessage %></p>
+<% } %>
