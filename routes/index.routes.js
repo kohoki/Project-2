@@ -5,6 +5,7 @@ const Product = require('../models/Product.model')
 /* GET home page */
 router.get("/", async(req, res, next) => {
   const product = await Product.find();
+
   console.log(product)
   res.render("index", {product});
 });
