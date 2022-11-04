@@ -5,7 +5,6 @@ const Product = require('../models/Product.model')
 /* GET home page */
 router.get("/", async(req, res, next) => {
   const product = await Product.find();
-
   console.log(product)
   res.render("index", {product});
 });
@@ -27,6 +26,7 @@ router.post('/create',async(req, res, next) => {
   try {
     await Product.create({
       name: req.body.name,
+      date: req.body.date,
       region: req.body.region,
       description: req.body.description,
       picture: req.body.picture,

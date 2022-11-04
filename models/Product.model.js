@@ -7,12 +7,17 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
+    date: {
+      type: Number,
+      required: true,
+    },
     region: {
       type: String,
       required: true,
     },
     description: {
       type: [String],
+      required: true
     },
     picture: {
       type: String,
