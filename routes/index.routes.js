@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../models/Product.model')
+const User = require('../models/User.model');
+const Product = require('../models/Product.model');
+const Cart = require('../models/Cart.model');
 
 /* GET home page */
 router.get("/", async (req, res, next) => {
@@ -52,6 +54,27 @@ router.post('/create',async(req, res, next) => {
   } catch (error) {
     console.log(error)
   }
+})
+
+// Render the shopping-cart view
+router.get('/shopping-cart', (req, res, next) => {
+  res.render('shopping-cart');
+})
+
+// Create the shopping-cart following the model
+router.post('/shopping-cart', async (req, res, next) => {
+  try {
+  
+  } catch (error) {
+    
+  }
+})
+
+router.get('/add-to-cart/:productId', async (req, res) => {
+  const { productId } = req.params;
+  const userId = req.session.user._id;
+  await Cart.findOneAndUpdate({ user: userId }, { $push: { products: productId } });
+  res.redirect('/');
 })
 
 module.exports = router;

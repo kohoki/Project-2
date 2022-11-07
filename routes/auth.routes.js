@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../models/User.model')
+const Cart = require('../models/Cart.model')
 const bcrypt = require('bcryptjs')
 
 const { isLoggedIn, isLoggedOut } = require('../middleware/route-guard.js');
@@ -19,11 +20,16 @@ router.post('/signup', async (req, res) => {
     const salt = bcrypt.genSaltSync(10)
     const hashedPassword = bcrypt.hashSync(req.body.password, salt)
 
-    await User.create({
+    const newUser = await User.create({
       username: req.body.username,
       email: req.body.email,
       password: hashedPassword,
     })
+
+    await Cart.create({
+      user: newUser._id
+    })
+
     res.redirect('/auth/login')
   } catch (error) {
     console.log(error.message)
