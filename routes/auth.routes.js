@@ -9,10 +9,10 @@ const { isLoggedIn, isLoggedOut } = require('../middleware/route-guard.js');
 
 // get Sign Up
 
-router.get('/signup',(req, res) => {
-    //console.log('SESSION =====> ', req.session)
-    res.render('auth/signup')
-  })
+router.get('/signup', (req, res) => {
+  //console.log('SESSION =====> ', req.session)
+  res.render('auth/signup')
+})
 
 /* POST Signup data */
 router.post('/signup', async (req, res) => {
@@ -33,7 +33,7 @@ router.post('/signup', async (req, res) => {
     res.redirect('/auth/login')
   } catch (error) {
     console.log(error.message)
-    res.render('auth/signup', {errorMessage})
+    res.render('auth/signup', { errorMessage: 'Username or e-mail already taken' })
   }
 })
 
@@ -50,7 +50,7 @@ router.post('/login', async (req, res) => {
   const currentUser = await User.findOne({ username })
   if (!currentUser) {
     // What to do if I don't have a user with this username
-    res.render('auth/login', { errorMessage: 'No user with this username'})
+    res.render('auth/login', { errorMessage: 'No user with this username' })
   } else {
     // console.log('Found User', currentUser)
     if (bcrypt.compareSync(password, currentUser.password)) {
@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
       res.redirect('/profile')
     } else {
       // What to do if I have a user and an incorrect password
-      res.render('auth/login', { errorMessage: 'Incorrect password !!!'})
+      res.render('auth/login', { errorMessage: 'Incorrect password !!!' })
     }
   }
 })

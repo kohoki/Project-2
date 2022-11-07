@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product.model')
-const Cart = require('../models/Cart.model');
+const Cart = require('../models/Cart.model')
+const User = require('../models/User.model')
+const addressDB = require('../models/addresses.model')
 
 /* GET home page */
 router.get("/", async (req, res, next) => {
@@ -18,28 +20,28 @@ router.get("/", async (req, res, next) => {
     // randomNumbers.forEach(element => {
     //   randomProducts.push(product[element])
     // });
-    
+
     console.log(allProducts)
-    res.render("index", {allProducts});
+    res.render("index", { allProducts });
   } catch (error) {
     console.log(error)
   }
 });
 
 router.get('/profile', async (req, res) => {
-  try{
+  try {
     console.log('SESSION =====> ', req.session)
     if (req.session.user) {
       const user = await User.findById(req.session.user._id);
-      const listOfAddresses = await addressDB.find({uId: req.session.user._id});
+      const listOfAddresses = await addressDB.find({ uId: req.session.user._id });
       //console.log(listOfAddresses);
 
-      res.render('profile', { user, listOfAddresses})
+      res.render('profile', { user, listOfAddresses })
 
     } else {
-    res.redirect('/auth/login')
+      res.redirect('/auth/login')
     }
-  } 
+  }
   catch (error) {
     console.log(error)
   }
@@ -47,24 +49,24 @@ router.get('/profile', async (req, res) => {
 
 router.post('/profile', async (req, res) => {
   const user = req.session.user;
-  const { fName, lName, email, credit} = req.body;
-  
+  const { fName, lName, email, credit } = req.body;
+
   try {
     await User.findByIdAndUpdate(user._id,
-      {fName, lName, email, credit}, { new: true });
-      res.redirect('/profile');
-    }
-  
+      { fName, lName, email, credit }, { new: true });
+    res.redirect('/profile');
+  }
+
   catch (error) {
     console.log(error)
   }
-  })
+})
 
 router.get('/create', (req, res, next) => {
   res.render('create');
 })
 
-router.post('/create',async(req, res, next) => {
+router.post('/create', async (req, res, next) => {
   try {
     await Product.create({
       name: req.body.name,
@@ -80,14 +82,57 @@ router.post('/create',async(req, res, next) => {
   }
 })
 
+router.get('/addAddress', (req, res, next) => {
+  res.render('addAddress');
+})
+
+// create new Addresse
+router.post('/addAddress', async (req, res, next) => {
+  const user = req.session.user;
+  try {
+    await addressDB.create({
+      uId: user._id,
+      fName: req.body.fName,
+      lName: req.body.lName,
+      aLine: req.body.aLine,
+      city: req.body.city,
+      zip: req.body.zip,
+      country: req.body.country,
+    })
+    res.redirect('/profile');
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// delete Address
+
+router.post('/deleteAddress/:id', async (req, res, next) => {
+
+  //console.log(req.params.id)
+  try {
+    await addressDB.findOneAndDelete({ _id: req.params.id })
+    res.redirect('/profile');
+  } catch (error) {
+    console.log(error)
+  }
+})
 router.get('/shopping-cart', (req, res) => {
   res.render('shopping-cart');
+})
+
+router.post('/shopping-cart', async (req, res) => {
+  try {
+    
+  } catch (error) {
+    
+  }
 })
 
 router.get('/add-to-cart/:productId', async (req, res) => {
   const { productId } = req.params;
   const userId = req.session.user._id;
-  await Cart.findOneAndUpdate({ user: userId }, { $push: { products: productId } });
+  await Cart.findOneAndUpdate({ user: userId }, { $push: { product: productId } });
   res.redirect('/');
 })
 
