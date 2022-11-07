@@ -32,7 +32,11 @@ router.get('/profile', async (req, res) => {
     console.log('SESSION =====> ', req.session)
     if (req.session.user) {
       const user = await User.findById(req.session.user._id);
-      res.render('profile', { user})
+      const listOfAddresses = await addressDB.find({uId: req.session.user._id});
+      console.log(listOfAddresses);
+
+      res.render('profile', { user, listOfAddresses})
+
     } else {
     res.redirect('/auth/login')
     }

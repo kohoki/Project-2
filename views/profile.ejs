@@ -11,6 +11,35 @@
     <button type="submit">Update</button>
   </form>
 
+
+  <h3>Addresses:</h3>
+<% if(listOfAddresses.length > 0) { %>
+    <% listOfAddresses.forEach(element => { %>
+      
+    
+    <form method="POST" action=""></form>
+
+    <div>First Name: <%= element.fName  %></div>
+    <div>Last Name: <%= element.lName  %></div>
+    <div>Address Line: <%= element.aLine  %></div>
+    <div>City: <%= element.city  %></div>
+    <div>Zip/Postal Code: <%= element.zip  %></div>
+    <div>Country: <%= element.country  %></div>
+
+    <button type="submit">delete Address</button>
+
+    </form>
+  <%  }); %> 
+<% } else { %>
+  <p>No Addresses in your Database</p>
+<% } %>
+<p></p>
+<form method="get" action="/addAddress">
+  <button type="submit">Add Address</button>
+</form>
+
+
+
   <% if (typeof errorMessage !== 'undefined') { %>
     <p style="color: red"><%= errorMessage %></p>
     <% } %>
