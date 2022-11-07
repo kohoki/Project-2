@@ -33,7 +33,7 @@ router.get('/profile', async (req, res) => {
     if (req.session.user) {
       const user = await User.findById(req.session.user._id);
       const listOfAddresses = await addressDB.find({uId: req.session.user._id});
-      console.log(listOfAddresses);
+      //console.log(listOfAddresses);
 
       res.render('profile', { user, listOfAddresses})
 
@@ -98,6 +98,19 @@ router.post('/addAddress',async(req, res, next) => {
       zip: req.body.zip,
       country: req.body.country,
     })
+    res.redirect('/profile');
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+// delete Address
+
+router.post('/deleteAddress/:id',async(req, res, next) => {
+  
+  //console.log(req.params.id)
+  try {
+    await addressDB.findOneAndDelete({ _id: req.params.id })
     res.redirect('/profile');
   } catch (error) {
     console.log(error)

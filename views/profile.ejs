@@ -17,7 +17,7 @@
     <% listOfAddresses.forEach(element => { %>
       
     
-    <form method="POST" action=""></form>
+    <form method="POST" action="/deleteAddress/<%= element._id %>">
 
     <div>First Name: <%= element.fName  %></div>
     <div>Last Name: <%= element.lName  %></div>
