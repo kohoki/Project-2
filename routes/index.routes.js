@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product.model')
+const Cart = require('../models/Cart.model');
 
 /* GET home page */
 router.get("/", async (req, res, next) => {
@@ -77,6 +78,17 @@ router.post('/create',async(req, res, next) => {
   } catch (error) {
     console.log(error)
   }
+})
+
+router.get('/shopping-cart', (req, res) => {
+  res.render('shopping-cart');
+})
+
+router.get('/add-to-cart/:productId', async (req, res) => {
+  const { productId } = req.params;
+  const userId = req.session.user._id;
+  await Cart.findOneAndUpdate({ user: userId }, { $push: { products: productId } });
+  res.redirect('/');
 })
 
 module.exports = router;
