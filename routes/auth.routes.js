@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const SCart = require('../models/sCart.model')
 const User = require('../models/User.model')
 const bcrypt = require('bcryptjs')
 
@@ -27,7 +27,7 @@ router.post('/signup', async (req, res) => {
     res.redirect('/auth/login')
   } catch (error) {
     console.log(error.message)
-    res.render('auth/signup', {errorMessage})
+    res.render('auth/signup', {errorMessage: "Name or email is in DB"})
   }
 })
 
@@ -40,8 +40,9 @@ router.get('/login', (req, res) => {
 /* POST Login data */
 
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body
-  const currentUser = await User.findOne({ username })
+  const { username, password } = req.body;
+  try {
+    const currentUser = await User.findOne({ username })
   if (!currentUser) {
     // What to do if I don't have a user with this username
     res.render('auth/login', { errorMessage: 'No user with this username'})
@@ -53,13 +54,25 @@ router.post('/login', async (req, res) => {
       /* const sessionUser = structuredClone(currentUser)
       delete sessionUser.password */
       req.session.user = currentUser
-      //console.log(req.session.user)
+      findSCard = await SCart.find({_id: req.session.user._id, purchased: "false"})
+      // if there is no Schooping Card - please create
+      if(!findSCard)
+      {
+        await SCart.create({
+          uId: req.session.user._id
+        })
+      }
       res.redirect('/profile')
     } else {
       // What to do if I have a user and an incorrect password
       res.render('auth/login', { errorMessage: 'Incorrect password !!!'})
     }
   }
+  }
+  catch (error) {
+    console.log(error)
+  }
+  
 })
 
 

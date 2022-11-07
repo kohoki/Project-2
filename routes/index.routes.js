@@ -3,6 +3,7 @@ const router = express.Router();
 const Product = require('../models/Product.model')
 const User = require('../models/User.model')
 const addressDB = require('../models/addresses.model')
+const SCart = require('../models/sCart.model')
 
 /* GET home page */
 router.get("/", async (req, res, next) => {
