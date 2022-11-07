@@ -4,6 +4,7 @@ const Product = require('../models/Product.model')
 const User = require('../models/User.model')
 const addressDB = require('../models/addresses.model')
 const SCart = require('../models/sCart.model')
+const { isLoggedIn, isLoggedOut } = require('../middleware/route-guard.js');
 
 /* GET home page */
 router.get("/", async (req, res, next) => {
@@ -113,6 +114,22 @@ router.post('/deleteAddress/:id',async(req, res, next) => {
   try {
     await addressDB.findOneAndDelete({ _id: req.params.id })
     res.redirect('/profile');
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+router.post('/addToSchoppingCard/:id',isLoggedIn, async(req, res, next) => {
+  
+  //console.log("AAAAAAAAAAAA", req.body.quantity)
+  //console.log("BBBBBBBBBBBB", req.session.user._id)
+  userID = "" + req.session.user._id;
+  try {
+    const findCard = await SCart.findOneAndUpdate({uId: userID, purchased: "false"}, {$push: {product: {pId: req.params.id, quantity: req.body.quantity}}})
+    //{uId: req.session.user._id}
+    // , purchased: "false"
+    console.log(findCard)
+    //res.redirect('/');
   } catch (error) {
     console.log(error)
   }

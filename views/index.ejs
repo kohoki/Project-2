@@ -5,17 +5,27 @@
     <h2>No Products Yet</h2>
     <% } else { %>
         <% allProducts.forEach(product=> { %>
-            <div class="product-item">
-                <h3>
-                    <%= product.name %> - <%= product.date %>
-                </h3>
-                <ul>
-                    <% product.description.forEach(elem=> { %>
-                        <li>
-                            <%= elem %>
-                        </li>
-                        <% }) %>
-                </ul>
-            </div>
+            <form method="POST" action="/addToSchoppingCard/<%= product._id %>">
+                <div class="product-item">
+                    <h3>
+                        <%= product.name %> - <%= product.date %>
+                    </h3>
+                    <ul>
+                        <% product.description.forEach(elem=> { %>
+                            <li>
+                                <%= elem %>
+                            </li>
+                            <% }) %>
+                    </ul>
+                </div>
+                <div><label>Quantity: 
+                    <select name="quantity">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    </select></label></div>
+                <button type="submit">Add to Card</button>
+            </form>
     <% }) %>
 <% } %>
