@@ -22,7 +22,7 @@ router.get("/", async (req, res, next) => {
     //   randomProducts.push(product[element])
     // });
     
-    console.log(allProducts)
+    //console.log(allProducts)
     res.render("index", {allProducts});
   } catch (error) {
     console.log(error)
@@ -129,10 +129,14 @@ router.post('/addToSchoppingCard/:id',isLoggedIn, async(req, res, next) => {
     //{uId: req.session.user._id}
     // , purchased: "false"
     console.log(findCard)
-    //res.redirect('/');
+    res.redirect('/');
   } catch (error) {
     console.log(error)
   }
+})
+
+router.get('/ShoppingCard',isLoggedIn, (req, res, next) => {
+  res.render('ShoppingCard');
 })
 
 module.exports = router;

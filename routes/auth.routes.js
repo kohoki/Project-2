@@ -55,13 +55,15 @@ router.post('/login', async (req, res) => {
       delete sessionUser.password */
       req.session.user = currentUser
       findSCard = await SCart.find({_id: req.session.user._id, purchased: "false"})
+      console.log("AAAAAAAAAAAAAAAAAAAAAAA", findSCard)
       // if there is no Schooping Card - please create
-      if(!findSCard)
-      {
+       if(findSCard.length < 1)
+       {
         await SCart.create({
           uId: req.session.user._id
         })
-      }
+        
+       }
       res.redirect('/profile')
     } else {
       // What to do if I have a user and an incorrect password
@@ -74,7 +76,14 @@ router.post('/login', async (req, res) => {
   }
   
 })
+router.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) next(err);
+    res.redirect('/');
+  });
 
+
+})
 
 
 module.exports = router;

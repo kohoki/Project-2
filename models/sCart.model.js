@@ -6,7 +6,10 @@ const sCartSchema = new Schema({
         required: true,
         },
     product: [{
-        pId: String,
+        pId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Product'
+        },
         quantity: Number
         }],
     purchased: {
