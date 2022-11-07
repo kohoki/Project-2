@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User.model');
-const Product = require('../models/Product.model');
-const Cart = require('../models/Cart.model');
+const Product = require('../models/Product.model')
 
 /* GET home page */
 router.get("/", async (req, res, next) => {
@@ -27,14 +25,39 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get('/profile', (req, res) => {
-  console.log('SESSION =====> ', req.session)
-  if (req.session.user) {
-    res.render('profile', { user: req.session.user})
-  } else {
+router.get('/profile', async (req, res) => {
+  try{
+    console.log('SESSION =====> ', req.session)
+    if (req.session.user) {
+      const user = await User.findById(req.session.user._id);
+      const listOfAddresses = await addressDB.find({uId: req.session.user._id});
+      //console.log(listOfAddresses);
+
+      res.render('profile', { user, listOfAddresses})
+
+    } else {
     res.redirect('/auth/login')
+    }
+  } 
+  catch (error) {
+    console.log(error)
   }
 })
+
+router.post('/profile', async (req, res) => {
+  const user = req.session.user;
+  const { fName, lName, email, credit} = req.body;
+  
+  try {
+    await User.findByIdAndUpdate(user._id,
+      {fName, lName, email, credit}, { new: true });
+      res.redirect('/profile');
+    }
+  
+  catch (error) {
+    console.log(error)
+  }
+  })
 
 router.get('/create', (req, res, next) => {
   res.render('create');
@@ -54,27 +77,6 @@ router.post('/create',async(req, res, next) => {
   } catch (error) {
     console.log(error)
   }
-})
-
-// Render the shopping-cart view
-router.get('/shopping-cart', (req, res, next) => {
-  res.render('shopping-cart');
-})
-
-// Create the shopping-cart following the model
-router.post('/shopping-cart', async (req, res, next) => {
-  try {
-  
-  } catch (error) {
-    
-  }
-})
-
-router.get('/add-to-cart/:productId', async (req, res) => {
-  const { productId } = req.params;
-  const userId = req.session.user._id;
-  await Cart.findOneAndUpdate({ user: userId }, { $push: { products: productId } });
-  res.redirect('/');
 })
 
 module.exports = router;

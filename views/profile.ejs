@@ -1,2 +1,45 @@
-<h3>Profile</h3>
+<h3>Profile Page</h3>
 <p>Hello <%= user.username %></p>
+
+
+<form method="POST" action="/profile">
+    <div><label>Name: <input type="text" name="fName" value="<%= user.fName %>"/></label></div>
+    <div><label>Last Name: <input type="text" name="lName" value="<%= user.lName %>"/></label></div>
+    <div><label>e-mail: <input type="text" name="email" value="<%= user.email %>"/></label></div>
+    <div><label>Credit: <input type="number" name="credit" value="<%= user.credit %>"/></label></div>
+    
+    <button type="submit">Update</button>
+  </form>
+
+
+  <h3>Addresses:</h3>
+<% if(listOfAddresses.length > 0) { %>
+    <% listOfAddresses.forEach(element => { %>
+      
+    
+    <form method="POST" action="/deleteAddress/<%= element._id %>">
+
+    <div>First Name: <%= element.fName  %></div>
+    <div>Last Name: <%= element.lName  %></div>
+    <div>Address Line: <%= element.aLine  %></div>
+    <div>City: <%= element.city  %></div>
+    <div>Zip/Postal Code: <%= element.zip  %></div>
+    <div>Country: <%= element.country  %></div>
+
+    <button type="submit">delete Address</button>
+
+    </form>
+  <%  }); %> 
+<% } else { %>
+  <p>No Addresses in your Database</p>
+<% } %>
+<p></p>
+<form method="get" action="/addAddress">
+  <button type="submit">Add Address</button>
+</form>
+
+
+
+  <% if (typeof errorMessage !== 'undefined') { %>
+    <p style="color: red"><%= errorMessage %></p>
+    <% } %>

@@ -1,0 +1,17 @@
+<h1>Add a Address</h1>
+
+<form method="POST" action="/addAddress">
+
+  <div><label>First Name:<input type="text" name="fName" required /></label></div>
+  <div><label>Last Name:<input type="text" name="lName" required /></label></div>
+  <div><label>Address Line:<input type="text" name="aLine" required /></label></div>
+  <div><label>City:<input type="text" name="city" required /></label></div>
+  <div><label>Zip/Postal Code:<input type="number" name="zip" required /></label></div>
+  <div><label>Country:<input type="text" name="country" required /></label></div>
+
+  <button type="submit">Add</button>
+</form>
+
+<% if (typeof errorMessage !== "undefined") { %>
+<p><%= errorMessage %></p>
+<% } %>
