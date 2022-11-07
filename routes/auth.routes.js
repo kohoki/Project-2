@@ -54,8 +54,8 @@ router.post('/login', async (req, res) => {
       /* const sessionUser = structuredClone(currentUser)
       delete sessionUser.password */
       req.session.user = currentUser
-      findSCard = await SCart.find({_id: req.session.user._id, purchased: "false"})
-      console.log("AAAAAAAAAAAAAAAAAAAAAAA", findSCard)
+      findSCard = await SCart.find({uId: req.session.user._id, purchased: "false"})
+      //console.log("AAAAAAAAAAAAAAAAAAAAAAA", findSCard)
       // if there is no Schooping Card - please create
        if(findSCard.length < 1)
        {

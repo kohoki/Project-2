@@ -135,8 +135,19 @@ router.post('/addToSchoppingCard/:id',isLoggedIn, async(req, res, next) => {
   }
 })
 
-router.get('/ShoppingCard',isLoggedIn, (req, res, next) => {
-  res.render('ShoppingCard');
+router.get('/ShoppingCard',isLoggedIn, async (req, res, next) => {
+  try{
+    const allProducts = await Product.find();
+    const SCard = await SCart.find({uId: req.session.user._id, purchased: "false"});
+    // {_id: req.session.user._id, purchased: "false"}
+    console.log("XXXXXXXXXXXXXXXXXX", allProducts)
+    const sCardProducts = SCard[0].product;
+    res.render('ShoppingCard', {allProducts, sCardProducts} );
+  }
+  catch (error) {
+    console.log(error)
+  }
+  
 })
 
 module.exports = router;
