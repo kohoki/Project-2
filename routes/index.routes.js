@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product.model')
+const User = require('../models/User.model')
 
 /* GET home page */
 router.get("/", async (req, res, next) => {
@@ -33,6 +34,22 @@ router.get('/profile', (req, res) => {
     res.redirect('/auth/login')
   }
 })
+
+
+router.post('/profile', async (req, res) => {
+  const user = req.session.user;
+  const { fName, lName, email, credit} = req.body;
+  
+  try {
+    await User.findByIdAndUpdate(user._id,
+      {fName, lName, email, credit}, { new: true });
+      res.redirect('/profile');
+    }
+  
+  catch (error) {
+    console.log(error)
+  }
+  })
 
 router.get('/create', (req, res, next) => {
   res.render('create');
