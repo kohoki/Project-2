@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product.model')
 const User = require('../models/User.model')
+const addressDB = require('../models/addresses.model')
 
 /* GET home page */
 router.get("/", async (req, res, next) => {
@@ -26,15 +27,20 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get('/profile', (req, res) => {
-  console.log('SESSION =====> ', req.session)
-  if (req.session.user) {
-    res.render('profile', { user: req.session.user})
-  } else {
+router.get('/profile', async (req, res) => {
+  try{
+    console.log('SESSION =====> ', req.session)
+    if (req.session.user) {
+      const user = await User.findById(req.session.user._id);
+      res.render('profile', { user})
+    } else {
     res.redirect('/auth/login')
+    }
+  } 
+  catch (error) {
+    console.log(error)
   }
 })
-
 
 router.post('/profile', async (req, res) => {
   const user = req.session.user;
@@ -66,6 +72,29 @@ router.post('/create',async(req, res, next) => {
       price: req.body.price,
     })
     res.redirect('/create');
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+router.get('/addAddress', (req, res, next) => {
+  res.render('addAddress');
+})
+
+// create new Addresse
+router.post('/addAddress',async(req, res, next) => {
+  const user = req.session.user;
+  try {
+    await addressDB.create({
+      uId: user._id,
+      fName: req.body.fName,
+      lName: req.body.lName,
+      aLine: req.body.aLine,
+      city: req.body.city,
+      zip: req.body.zip,
+      country: req.body.country,
+    })
+    res.redirect('/profile');
   } catch (error) {
     console.log(error)
   }
