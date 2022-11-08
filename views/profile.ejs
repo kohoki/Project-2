@@ -12,12 +12,12 @@
   </form>
 
 
-  <h3>Addresses:</h3>
+<h3>Addresses:</h3>
 <% if(listOfAddresses.length > 0) { %>
     <% listOfAddresses.forEach(element => { %>
       
     
-    <form method="POST" action="/deleteAddress/<%= element._id %>">
+  <form method="POST" action="/deleteAddress/<%= element._id %>">
 
     <div>First Name: <%= element.fName  %></div>
     <div>Last Name: <%= element.lName  %></div>
@@ -28,7 +28,7 @@
 
     <button type="submit">delete Address</button>
 
-    </form>
+  </form>
   <%  }); %> 
 <% } else { %>
   <p>No Addresses in your Database</p>
@@ -37,6 +37,8 @@
 <form method="get" action="/addAddress">
   <button type="submit">Add Address</button>
 </form>
+
+<h3>Your purchases</h3>
 
 
 

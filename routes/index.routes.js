@@ -29,20 +29,17 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get('/profile', async (req, res) => {
+router.get('/profile',isLoggedIn, async (req, res) => {
   try{
-    console.log('SESSION =====> ', req.session)
-    if (req.session.user) {
+    //console.log('SESSION =====> ', req.session)
+    
       const user = await User.findById(req.session.user._id);
       const listOfAddresses = await addressDB.find({uId: req.session.user._id});
-      //console.log(listOfAddresses);
-
-      res.render('profile', { user, listOfAddresses})
-
-    } else {
-    res.redirect('/auth/login')
-    }
-  } 
+      const allPurchases = await SCart.find({uId: req.session.user._id, purchased: "true"});
+      console.log("AAAAAAAAAAAAAAA", allPurchases)
+      
+      res.render('profile', { user, listOfAddresses, allPurchases})
+      } 
   catch (error) {
     console.log(error)
   }
