@@ -36,7 +36,7 @@ router.get('/profile',isLoggedIn, async (req, res) => {
       const user = await User.findById(req.session.user._id);
       const listOfAddresses = await addressDB.find({uId: req.session.user._id});
       const allPurchases = await SCart.find({uId: req.session.user._id, purchased: "true"});
-      console.log("AAAAAAAAAAAAAAA", allPurchases)
+      console.log("AAAAAAAAAAAAAAA", allPurchases[0].product)
       
       res.render('profile', { user, listOfAddresses, allPurchases})
       } 

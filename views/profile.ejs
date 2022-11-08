@@ -39,6 +39,19 @@
 </form>
 
 <h3>Your purchases</h3>
+ <% allPurchases.forEach (purchase => { %>
+  <p>Date: <%= purchase.createdAt %></p>
+  <% purchase.product.forEach(product => { %>
+    <p>ID: <%= product.pId %></p> 
+    
+    <p>quantity: <%= product.quantity %> </p>
+    <p>------------------------</p>
+
+  <% }) %>
+
+  <p>You paid total: <%= purchase.sum %> gold coins</p>
+  <p>###########################</p>
+ <% }) %>  
 
 
 
