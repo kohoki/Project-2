@@ -1,0 +1,27 @@
+<div class="search-ctn">
+    <h2>What are you looking for ?</h2>
+    <form id="search-form" method='POST' action="/search">
+        <label for=""> Region:
+            <select name="region" id="region">
+                    <option value="">All</option>
+                <% regionsArr.forEach(region=> { %>
+                    <option value="<%= region %>">
+                        <%= region %>
+                    </option>
+                    <% }) %>
+            </select>
+        </label>
+        <label for=""> Date:
+            <select name="date" id="date">
+                    <option value="">All</option>
+                <% datesArr.forEach(date=> { %>
+                    <option value="<%= date %>">
+                        <%= date %>
+                    </option>
+                    <% }) %>
+            </select>
+        </label>
+        
+        <button type="submit">Search</button>
+    </form>
+</div>

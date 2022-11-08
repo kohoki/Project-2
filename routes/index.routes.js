@@ -20,13 +20,66 @@ router.get("/", async (req, res, next) => {
     // randomNumbers.forEach(element => {
     //   randomProducts.push(product[element])
     // });
-
-    console.log(allProducts)
+    
     res.render("index", { allProducts });
   } catch (error) {
     console.log(error)
   }
 });
+
+router.get('/search', async (req, res, next) => {
+  try {
+    const products = await Product.find();
+    const regionsArr = [];
+    const datesArr = [];
+    // const colorsArr = [];
+
+    products.forEach(product => {
+      const region = product.region;
+      const date = product.date;
+      if (!regionsArr.includes(region)) {
+        regionsArr.push(region);
+      }
+      if (!datesArr.includes(date)) {
+        datesArr.push(date);
+      }
+      // if (!colorsArr.includes(color)) {
+      //   colorsArr.push(color);
+      // }
+    })
+    
+    regionsArr.sort();
+    datesArr.sort();
+    // colorsArr.sort();
+
+    res.render('search', {regionsArr, datesArr, /*colorsArr*/})
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+router.post('/search', async (req, res, next) => {
+  const { region, date } = req.body;
+  let searchResult;
+  if (region !== '' && date !== ''){
+    searchResult = await Product.find({ region: region, date: date })
+  } else if (region !== '' && date === '') {
+    searchResult = await Product.find({ region: region })
+  } else if (region === '' && date !== '') {
+    searchResult = await Product.find({ date: date })
+  }
+
+  console.log(searchResult)
+  res.redirect('search')
+})
+
+router.get('/', async (req, res, next) => {
+  try {
+    const products = await Product.find();
+  } catch (error) {
+    
+  }
+})
 
 router.get('/profile', async (req, res) => {
   try {

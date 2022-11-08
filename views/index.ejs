@@ -1,23 +1,18 @@
 <h1> 🚀</h1>
 <p>Welcome</p>
 
-<% if (!allProducts) { %>
-    <h2>No Products Yet</h2>
-<% } else { %>
-    <% allProducts.forEach(product=> { %>
-        <div class="product-item">
-            <h3>
-                <%= product.name %> - <%= product.date %>
-            </h3>
-            <ul>
-                <% product.description.forEach(elem=> { %>
-                    <li>
-                        <%= elem %>
-                    </li>
-                <% }) %>
-            </ul>
-            <!-- <button>Add to the shopping Cart</button> -->
-            <a href="/add-to-cart/<%= product.id %>">Add to the Shoppping Cart</a>
-        </div>
-    <% }) %>
-<% } %>
+<div id="products-ctn">
+    <% if (!allProducts) { %>
+        <h2>No Products Yet</h2>
+    <% } else { %>
+        <% allProducts.forEach(product=> { %>
+            <div class="product-item">
+                <h3>
+                    <%= product.name %> - <%= product.date %>
+                </h3>
+                <!-- <button>Add to the shopping Cart</button> -->
+                <a href="/add-to-cart/<%= product.id %>">Add to the Shoppping Cart</a>
+            </div>
+        <% }) %>
+    <% } %>
+</div>
