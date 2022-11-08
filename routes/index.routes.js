@@ -140,8 +140,19 @@ router.get('/ShoppingCard',isLoggedIn, async (req, res, next) => {
     const allProducts = await Product.find();
     const SCard = await SCart.find({uId: req.session.user._id, purchased: "false"});
     // {_id: req.session.user._id, purchased: "false"}
-    console.log("XXXXXXXXXXXXXXXXXX", allProducts)
+    //console.log("XXXXXXXXXXXXXXXXXX", allProducts)
     const sCardProducts = SCard[0].product;
+    console.log(sCardProducts[0].pId)
+    console.log(allProducts[0]._id)
+    stringA = "" + sCardProducts[0].pId;
+    stringB = "" + allProducts[0]._id;
+    const isequal = stringA === stringB;
+    console.log("AAAAAAAAAAAAAAA", isequal)
+    if(isequal)
+    {
+      console.log("it works XXXXXXXXXXXXXXXXXX")
+    }
+
     res.render('ShoppingCard', {allProducts, sCardProducts} );
   }
   catch (error) {
