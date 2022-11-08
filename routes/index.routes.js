@@ -32,7 +32,7 @@ router.get('/search', async (req, res, next) => {
     const products = await Product.find();
     const regionsArr = [];
     const datesArr = [];
-    // const colorsArr = [];
+    // const typesArr = [];
 
     products.forEach(product => {
       const region = product.region;
@@ -43,16 +43,16 @@ router.get('/search', async (req, res, next) => {
       if (!datesArr.includes(date)) {
         datesArr.push(date);
       }
-      // if (!colorsArr.includes(color)) {
-      //   colorsArr.push(color);
+      // if (!typesArr.includes(type)) {
+      //   typesArr.push(type);
       // }
     })
     
     regionsArr.sort();
     datesArr.sort();
-    // colorsArr.sort();
+    // typesArr.sort();
 
-    res.render('search', {regionsArr, datesArr, /*colorsArr*/})
+    res.render('search', {products, regionsArr, datesArr})
   } catch (error) {
     console.log(error);
   }
@@ -68,18 +68,17 @@ router.post('/search', async (req, res, next) => {
   } else if (region === '' && date !== '') {
     searchResult = await Product.find({ date: date })
   }
-
-  console.log(searchResult)
-  res.redirect('search')
+  console.log(searchResult);
+  res.render('search-result', {searchResult});
 })
 
-router.get('/', async (req, res, next) => {
-  try {
-    const products = await Product.find();
-  } catch (error) {
-    
-  }
+router.get('/search-result', async(req, res) => {
+  console.log(req.body);
+  res.render('search-result');
 })
+
+
+
 
 router.get('/profile', async (req, res) => {
   try {
@@ -121,13 +120,15 @@ router.get('/create', (req, res, next) => {
 
 router.post('/create', async (req, res, next) => {
   try {
+    const { name, region, designation, type, date, picture, price } = req.body;
     await Product.create({
-      name: req.body.name,
-      date: req.body.date,
-      region: req.body.region,
-      description: req.body.description,
-      picture: req.body.picture,
-      price: req.body.price,
+      name: name,
+      region: region,
+      designation: designation,
+      type: type,
+      date: date,
+      picture: picture,
+      price: price
     })
     res.redirect('/create');
   } catch (error) {

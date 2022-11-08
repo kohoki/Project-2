@@ -1,0 +1,9 @@
+<h2>Your search result:</h2>
+
+<% if (typeof searchResult === 'undefined') { %>
+ <p> No results</p>
+<% } else { %>
+<% searchResult.forEach(result => { %>
+  <p><%= result.name%></p>
+<% }) %>
+<% } %>
