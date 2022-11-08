@@ -110,7 +110,6 @@ router.post('/addAddress',async(req, res, next) => {
 
 router.post('/deleteAddress/:id',async(req, res, next) => {
   
-  //console.log(req.params.id)
   try {
     await addressDB.findOneAndDelete({ _id: req.params.id })
     res.redirect('/profile');
@@ -121,14 +120,10 @@ router.post('/deleteAddress/:id',async(req, res, next) => {
 
 router.post('/addToSchoppingCard/:id',isLoggedIn, async(req, res, next) => {
   
-  //console.log("AAAAAAAAAAAA", req.body.quantity)
-  //console.log("BBBBBBBBBBBB", req.session.user._id)
   userID = "" + req.session.user._id;
   try {
     const findCard = await SCart.findOneAndUpdate({uId: userID, purchased: "false"}, {$push: {product: {pId: req.params.id, quantity: req.body.quantity}}})
-    //{uId: req.session.user._id}
-    // , purchased: "false"
-    console.log(findCard)
+
     res.redirect('/');
   } catch (error) {
     console.log(error)
@@ -139,12 +134,8 @@ router.get('/ShoppingCard',isLoggedIn, async (req, res, next) => {
   try{
     const allProducts = await Product.find();
     const SCard = await SCart.find({uId: req.session.user._id, purchased: "false"});
-    //console.log("XXXXXXXXXXXXXXXXXX", allProducts)
+    // create the total price youe have to pay
     const sCardProducts = SCard[0].product;
-    // console.log(sCardProducts[0].pId)
-    // console.log(allProducts[0]._id)
-    // stringA = "" + sCardProducts[0].pId;
-    // stringB = "" + allProducts[0]._id;
     let sumAll = 0;
     sCardProducts.forEach(element => {
       let id1 = "" + element.pId;
@@ -183,7 +174,7 @@ router.get('/purchase',isLoggedIn, async (req, res, next) => {
     const sCardProducts = SCard[0].product;
     const listOfAddresses = await addressDB.find({uId: req.session.user._id});
     const user = await User.findById(req.session.user._id);
-
+    // again create the total price - because you can change the amount here as well
     let sumAll = 0;
     sCardProducts.forEach(element => {
       let id1 = "" + element.pId;
@@ -214,12 +205,13 @@ router.post('/deleteFromPurchase/:id',async(req, res, next) => {
   }
 })
 
-// finish to buy - accept the purchase
 
+
+// finish to buy - accept the purchase
 
 router.post('/purchase/buy',async(req, res, next) => {
   try {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA", req.body._id);
+    
     // update your shopping card - the choosen address and that you purchased your shopping card
     await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {address: req.body._id});
     await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {purchased: true});
