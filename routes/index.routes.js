@@ -214,5 +214,24 @@ router.post('/deleteFromPurchase/:id',async(req, res, next) => {
   }
 })
 
+// finish to buy - accept the purchase
+
+
+router.post('/purchase/buy',async(req, res, next) => {
+  try {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA", req.body._id);
+    // update your shopping card - the choosen address and that you purchased your shopping card
+    await SCart.findOneAndUpdate({uId: req.session.user._id}, {address: req.body._id});
+    await SCart.findOneAndUpdate({uId: req.session.user._id}, {purchased: true});
+
+    // now we need a new clean shopping Card
+
+
+    res.redirect('/');
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 
 module.exports = router;

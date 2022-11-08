@@ -9,20 +9,20 @@
             <p>Date: <%= product.date%></p>
             <p>Quantity: <%= element.quantity%></p>
             <form method="POST" action="/deleteFromPurchase/<%= element._id %>">
-                <button type="submit">delete Product</button>
+                <button type="submit">delete</button>
             </form>
             <p>---------------------------</p>
        <% } %>
        
     <% }) %>
 <% }) %>
-
-<h3>Addresses</h3>
+<form method="POST" action="/purchase/buy">
+<h3>Sent to:</h3>
 <% if(listOfAddresses.length > 0) { %>
     <% listOfAddresses.forEach(element => { %>
     
     
-    <form method="POST" action="/deleteAddress/<%= element._id %>">
+    
 
     <div>First Name: <%= element.fName  %></div>
     <div>Last Name: <%= element.lName  %></div>
@@ -30,9 +30,9 @@
     <div>City: <%= element.city  %></div>
     <div>Zip/Postal Code: <%= element.zip  %></div>
     <div>Country: <%= element.country  %></div>
-
+    <input type="radio" name="_id" value="<%= element._id %>">
     <p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-    </form>
+    
   <%  }); %> 
 <% } else { %>
   <p>No Addresses in your Database</p>
@@ -50,7 +50,7 @@
     <a href="/profile">Update your Credit</a>
     <% } else { %>
 
-    <form method="POST" action="/">
+    
         <p>xxxxxxxxxxxxxxxxxxxxx</p>
         <button type="submit">Buy</button>
         <p>xxxxxxxxxxxxxxxxxxxxx</p>
