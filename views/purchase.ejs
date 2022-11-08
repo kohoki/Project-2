@@ -16,10 +16,43 @@
        
     <% }) %>
 <% }) %>
-<p>Total Value: <%= sumAll %> gold coin</p>
 
-<form method="POST" action="/">
-    <p>xxxxxxxxxxxxxxxxxxxxx</p>
-    <button type="submit">Buy</button>
-    <p>xxxxxxxxxxxxxxxxxxxxx</p>
-</form>
+<h3>Addresses</h3>
+<% if(listOfAddresses.length > 0) { %>
+    <% listOfAddresses.forEach(element => { %>
+    
+    
+    <form method="POST" action="/deleteAddress/<%= element._id %>">
+
+    <div>First Name: <%= element.fName  %></div>
+    <div>Last Name: <%= element.lName  %></div>
+    <div>Address Line: <%= element.aLine  %></div>
+    <div>City: <%= element.city  %></div>
+    <div>Zip/Postal Code: <%= element.zip  %></div>
+    <div>Country: <%= element.country  %></div>
+
+    <p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+    </form>
+  <%  }); %> 
+<% } else { %>
+  <p>No Addresses in your Database</p>
+  <form method="get" action="/addAddress">
+    <button type="submit">Add Address</button>
+  </form>
+<% } %>
+<p></p>
+
+<p>Total Value: <%= sumAll %> gold coins</p>
+<p>Your Credit: <%= user.credit %> gold coins</p>
+<% if ((user.credit - sumAll) < 0) {%>
+    <p>Not enough Money - sry</p>
+    <p>Please update your Credit.</p>
+    <a href="/profile">Update your Credit</a>
+    <% } else { %>
+
+    <form method="POST" action="/">
+        <p>xxxxxxxxxxxxxxxxxxxxx</p>
+        <button type="submit">Buy</button>
+        <p>xxxxxxxxxxxxxxxxxxxxx</p>
+    </form>
+    <% } %>

@@ -181,6 +181,9 @@ router.get('/purchase',isLoggedIn, async (req, res, next) => {
     const allProducts = await Product.find();
     const SCard = await SCart.find({uId: req.session.user._id, purchased: "false"});
     const sCardProducts = SCard[0].product;
+    const listOfAddresses = await addressDB.find({uId: req.session.user._id});
+    const user = await User.findById(req.session.user._id);
+
     let sumAll = 0;
     sCardProducts.forEach(element => {
       let id1 = "" + element.pId;
@@ -193,7 +196,7 @@ router.get('/purchase',isLoggedIn, async (req, res, next) => {
     });
     await SCart.findOneAndUpdate({uId: req.session.user._id}, {sum: sumAll});
 
-    res.render('purchase', {allProducts, sCardProducts, sumAll} );
+    res.render('purchase', {user, allProducts, sCardProducts, sumAll, listOfAddresses} );
   }
   catch (error) {
     console.log(error)
