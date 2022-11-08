@@ -155,7 +155,7 @@ router.get('/ShoppingCard',isLoggedIn, async (req, res, next) => {
         }
       })
     });
-    await SCart.findOneAndUpdate({uId: req.session.user._id}, {sum: sumAll});
+    await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {sum: sumAll});
     res.render('ShoppingCard', {allProducts, sCardProducts, sumAll} );
   }
   catch (error) {
@@ -166,7 +166,7 @@ router.get('/ShoppingCard',isLoggedIn, async (req, res, next) => {
 // delete one product from your shopping card
 router.post('/deleteFromShoppingCard/:id',async(req, res, next) => {
   try {
-    await SCart.updateOne({$pull: {product: {_id: req.params.id}}})
+    await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"} ,{$pull: {product: {_id: req.params.id}}})
     res.redirect('/ShoppingCard');
   } catch (error) {
     console.log(error)
@@ -194,7 +194,7 @@ router.get('/purchase',isLoggedIn, async (req, res, next) => {
         }
       })
     });
-    await SCart.findOneAndUpdate({uId: req.session.user._id}, {sum: sumAll});
+    await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {sum: sumAll});
 
     res.render('purchase', {user, allProducts, sCardProducts, sumAll, listOfAddresses} );
   }
@@ -207,7 +207,7 @@ router.get('/purchase',isLoggedIn, async (req, res, next) => {
 
 router.post('/deleteFromPurchase/:id',async(req, res, next) => {
   try {
-    await SCart.updateOne({$pull: {product: {_id: req.params.id}}})
+    await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"} ,{$pull: {product: {_id: req.params.id}}})
     res.redirect('/purchase');
   } catch (error) {
     console.log(error)
@@ -221,11 +221,16 @@ router.post('/purchase/buy',async(req, res, next) => {
   try {
     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA", req.body._id);
     // update your shopping card - the choosen address and that you purchased your shopping card
-    await SCart.findOneAndUpdate({uId: req.session.user._id}, {address: req.body._id});
-    await SCart.findOneAndUpdate({uId: req.session.user._id}, {purchased: true});
-
+    await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {address: req.body._id});
+    await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {purchased: true});
     // now we need a new clean shopping Card
-
+    findSCard = await SCart.find({uId: req.session.user._id, purchased: "false"})
+    if(findSCard.length < 1)
+       {
+        await SCart.create({
+          uId: req.session.user._id
+        }) 
+       }
 
     res.redirect('/');
   } catch (error) {
