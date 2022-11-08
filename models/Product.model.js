@@ -6,17 +6,21 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
-    date: {
-      type: Number,
-      required: true,
-    },
     region: {
       type: String,
       required: true,
     },
-    description: {
-      type: [String],
+    designation: {
+      type: String,
       required: true
+    },
+    color: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: Number,
+      required: true,
     },
     picture: {
       type: String,
