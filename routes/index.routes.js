@@ -155,7 +155,7 @@ router.get('/ShoppingCard',isLoggedIn, async (req, res, next) => {
         }
       })
     });
-
+    await SCart.findOneAndUpdate({uId: req.session.user._id}, {sum: sumAll});
     res.render('ShoppingCard', {allProducts, sCardProducts, sumAll} );
   }
   catch (error) {
@@ -168,6 +168,44 @@ router.post('/deleteFromShoppingCard/:id',async(req, res, next) => {
   try {
     await SCart.updateOne({$pull: {product: {_id: req.params.id}}})
     res.redirect('/ShoppingCard');
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+
+// buy page
+
+router.get('/purchase',isLoggedIn, async (req, res, next) => {
+  try{
+    const allProducts = await Product.find();
+    const SCard = await SCart.find({uId: req.session.user._id, purchased: "false"});
+    const sCardProducts = SCard[0].product;
+    let sumAll = 0;
+    sCardProducts.forEach(element => {
+      let id1 = "" + element.pId;
+      allProducts.forEach(product =>{
+        let id2 = "" + product._id;
+        if(id1 === id2){
+          sumAll += (product.price * element.quantity)
+        }
+      })
+    });
+    await SCart.findOneAndUpdate({uId: req.session.user._id}, {sum: sumAll});
+
+    res.render('purchase', {allProducts, sCardProducts, sumAll} );
+  }
+  catch (error) {
+    console.log(error)
+  }
+})
+
+// delete from purchase page
+
+router.post('/deleteFromPurchase/:id',async(req, res, next) => {
+  try {
+    await SCart.updateOne({$pull: {product: {_id: req.params.id}}})
+    res.redirect('/purchase');
   } catch (error) {
     console.log(error)
   }

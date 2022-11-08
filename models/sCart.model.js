@@ -15,6 +15,12 @@ const sCartSchema = new Schema({
     purchased: {
         type: Boolean,
         default: false
+    },
+    sum: {
+        type: Number
+    },
+    address: {
+        type : String
     }      
     },
     {
