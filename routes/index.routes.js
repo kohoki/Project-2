@@ -27,48 +27,60 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+/*------------------ SEARCH BAR ------------------*/
+
 router.get('/search', async (req, res, next) => {
   try {
     const products = await Product.find();
     const regionsArr = [];
     const datesArr = [];
-    // const typesArr = [];
+    const typesArr = [];
+    const designationsArr = [];
 
     products.forEach(product => {
       const region = product.region;
       const date = product.date;
+      const type = product.type;
+      const designation = product.designation;
       if (!regionsArr.includes(region)) {
         regionsArr.push(region);
       }
       if (!datesArr.includes(date)) {
         datesArr.push(date);
       }
-      // if (!typesArr.includes(type)) {
-      //   typesArr.push(type);
-      // }
+      if (!typesArr.includes(type)) {
+        typesArr.push(type);
+      }
+      if (!designationsArr.includes(designation)) {
+        designationsArr.push(designation);
+      }
     })
     
     regionsArr.sort();
     datesArr.sort();
-    // typesArr.sort();
+    typesArr.sort();
+    designationsArr.sort();
 
-    res.render('search', {products, regionsArr, datesArr})
+    res.render('search', { products, regionsArr, datesArr, typesArr, designationsArr })
   } catch (error) {
     console.log(error);
   }
 })
 
 router.post('/search', async (req, res, next) => {
-  const { region, date } = req.body;
+  const { region, date, type, designation} = req.body;
   let searchResult;
-  if (region !== '' && date !== ''){
-    searchResult = await Product.find({ region: region, date: date })
-  } else if (region !== '' && date === '') {
+  if (region !== '' && date !== '' && type !== '' && designation !== ''){
+    searchResult = await Product.find({ region: region, date: date, type: type, designation: designation });
+  } else if (region !== '' && date === '' && type === '' && designation === '') {
     searchResult = await Product.find({ region: region })
-  } else if (region === '' && date !== '') {
+  } else if (region === '' && date !== '' && type === '' && designation === '') {
     searchResult = await Product.find({ date: date })
-  }
-  console.log(searchResult);
+  } else if (region === '' && date === '' && type === '' && designation !== '') {
+    searchResult = await Product.find({ designation: designation })
+  } else if (region === '' && date === '' && type !== '' && designation === '') {
+    searchResult = await Product.find({ type: type })
+  } 
   res.render('search-result', {searchResult});
 })
 
@@ -77,8 +89,7 @@ router.get('/search-result', async(req, res) => {
   res.render('search-result');
 })
 
-
-
+/*------------------ SEARCH BAR ------------------*/
 
 router.get('/profile', async (req, res) => {
   try {
@@ -114,6 +125,9 @@ router.post('/profile', async (req, res) => {
   }
 })
 
+/*------------------ CREATE PRODUCT ------------------*/
+/*------ Should be accessible only for the Admin -----*/
+
 router.get('/create', (req, res, next) => {
   res.render('create');
 })
@@ -135,6 +149,8 @@ router.post('/create', async (req, res, next) => {
     console.log(error)
   }
 })
+
+/*------------------ // CREATE PRODUCT ------------------*/
 
 router.get('/addAddress', (req, res, next) => {
   res.render('addAddress');
@@ -186,7 +202,7 @@ router.post('/shopping-cart', async (req, res) => {
 router.get('/add-to-cart/:productId', async (req, res) => {
   const { productId } = req.params;
   const userId = req.session.user._id;
-  await Cart.findOneAndUpdate({ user: userId }, { $push: { product: productId } });
+  let newCart = await Cart.findOneAndUpdate({ user: userId }, { $push: { product: productId } });
   res.redirect('/');
 })
 

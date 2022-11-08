@@ -1,9 +1,9 @@
 <div class="search-ctn">
     <h2>What are you looking for ?</h2>
     <form id="search-form" method='POST' action="/search">
-        <label for=""> Region:
+        <label for="">
             <select name="region" id="region">
-                    <option value="">All</option>
+                    <option value="">Region</option>
                 <% regionsArr.forEach(region=> { %>
                     <option value="<%= region %>">
                         <%= region %>
@@ -11,12 +11,32 @@
                     <% }) %>
             </select>
         </label>
-        <label for=""> Date:
+        <label for="">
             <select name="date" id="date">
-                    <option value="">All</option>
+                    <option value="">Date</option>
                 <% datesArr.forEach(date=> { %>
                     <option value="<%= date %>">
                         <%= date %>
+                    </option>
+                    <% }) %>
+            </select>
+        </label>
+        <label for="">
+            <select name="designation" id="designation">
+                <option value="">Designation</option>
+                <% designationsArr.forEach(designation=> { %>
+                    <option value="<%= designation %>">
+                        <%= designation %>
+                    </option>
+                    <% }) %>
+            </select>
+        </label>
+        <label for="">
+            <select name="type" id="type">
+                    <option value="">Type</option>
+                <% typesArr.forEach(type=> { %>
+                    <option value="<%= type %>">
+                        <%= type %>
                     </option>
                     <% }) %>
             </select>
