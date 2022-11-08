@@ -117,23 +117,25 @@ router.post('/deleteAddress/:id', async (req, res, next) => {
     console.log(error)
   }
 })
-router.get('/shopping-cart', (req, res) => {
-  res.render('shopping-cart');
-})
 
-router.post('/shopping-cart', async (req, res) => {
-  try {
-    
-  } catch (error) {
-    
-  }
-})
-
+//Find the user's shopping cart and add products
 router.get('/add-to-cart/:productId', async (req, res) => {
   const { productId } = req.params;
   const userId = req.session.user._id;
   await Cart.findOneAndUpdate({ user: userId }, { $push: { product: productId } });
   res.redirect('/');
+})
+
+//Render the shopping-cart view
+router.get('/shopping-cart', async (req, res) => {
+  try {
+    const userId = req.session.user._id;
+    const { user, product } = req.body;
+    const shoppingCart = await Cart.findOne({ userId });
+    res.render('shopping-cart', { products });
+  } catch (error) {
+    console.log(error);
+  }
 })
 
 module.exports = router;
