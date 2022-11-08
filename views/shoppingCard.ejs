@@ -1,6 +1,7 @@
 <h2>Your Shopping Card</h2>
 
 
+
 <% sCardProducts.forEach(element => { %>
     <% let id1 =  "" + element.pId%>
     <% allProducts.forEach(product => { %>
@@ -11,9 +12,10 @@
             <p>Region: <%= product.region%></p>
             <p>Quantity: <%= element.quantity%></p>
             <p>---------------------------</p>
-
        <% } %>
        
     <% }) %>
-
 <% }) %>
+<p>Total Value: <%= sumAll %> gold coin</p>
+
+
