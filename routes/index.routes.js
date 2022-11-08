@@ -161,7 +161,17 @@ router.get('/ShoppingCard',isLoggedIn, async (req, res, next) => {
   catch (error) {
     console.log(error)
   }
-  
 })
+
+// delete one product from your shopping card
+router.post('/deleteFromShoppingCard/:id',async(req, res, next) => {
+  try {
+    await SCart.updateOne({$pull: {product: {_id: req.params.id}}})
+    res.redirect('/ShoppingCard');
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 
 module.exports = router;

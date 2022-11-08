@@ -11,6 +11,9 @@
             <p>Date: <%= product.date%></p>
             <p>Region: <%= product.region%></p>
             <p>Quantity: <%= element.quantity%></p>
+            <form method="POST" action="/deleteFromShoppingCard/<%= element._id %>">
+                <button type="submit">delete Product</button>
+            </form>
             <p>---------------------------</p>
        <% } %>
        
