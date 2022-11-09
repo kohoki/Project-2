@@ -38,18 +38,21 @@
   <button type="submit">Add Address</button>
 </form>
 
+
+
 <h3>Your purchases</h3>
  <% allPurchases.forEach (purchase => { %>
   <p>Date: <%= purchase.createdAt %></p>
   <% purchase.product.forEach(product => { %>
-    <p>ID: <%= product.pId %></p>
     <% let id1 = "" + product.pId %>
     <% allProducts.forEach(element => { %>
       <% let id2 = "" + element._id %>
-
+      <% if (id1 === id2) { %>
+        <p>Name: <%= element.name %></p>
+        <p>Date: <%= element.date%></p>
+        <p>Price: <%= element.price%> gold coins</p>
+      <% } %>
     <% }) %>
-    
-    <p>IDProduct: <%= allProducts[0]._id  %></p>
     
     <p>quantity: <%= product.quantity %> </p>
     <p>------------------------</p>

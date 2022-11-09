@@ -78,10 +78,10 @@ router.get('/search', async (req, res, next) => {
     console.log(error);
   }
 })
-
+let searchResult;
 router.post('/search', async (req, res, next) => {
   const { region, date, type, designation} = req.body;
-  let searchResult;
+  //let searchResult;
   if (region !== '' && date !== '' && type !== '' && designation !== ''){
     searchResult = await Product.find({ region: region, date: date, type: type, designation: designation });
   } else if (region !== '' && date === '' && type === '' && designation === '') {
@@ -93,6 +93,7 @@ router.post('/search', async (req, res, next) => {
   } else if (region === '' && date === '' && type !== '' && designation === '') {
     searchResult = await Product.find({ type: type })
   } 
+  console.log("AAAAAAAAAAAAAAAAA", searchResult)
   res.render('search-result', {searchResult});
 })
 
@@ -107,7 +108,8 @@ router.post('/addToSchoppingCard/fromSearchResult/:id',isLoggedIn, async(req, re
   const userID = "" + req.session.user._id;
   try {
     const findCard = await SCart.findOneAndUpdate({uId: userID, purchased: "false"}, {$push: {product: {pId: req.params.id, quantity: req.body.quantity}}})
-    res.redirect('/search-result');
+    //res.redirect('/search-result');
+    res.render('search-result', {searchResult});
   } catch (error) {
     console.log(error)
   }
@@ -206,13 +208,6 @@ router.post('/deleteAddress/:id',async(req, res, next) => {
 })
 
 /*------------------ // SHOPPING CARD ------------------*/
-
-router.get('/add-to-cart/:productId', async (req, res) => {
-  const { productId } = req.params;
-  const userId = req.session.user._id;
-  let newCart = await Cart.findOneAndUpdate({ user: userId }, { $push: { product: productId } });
-  res.redirect('/');
-})
 
 router.post('/addToSchoppingCard/:id',isLoggedIn, async(req, res, next) => {
   
