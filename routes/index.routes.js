@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../models/Product.model')
-const Cart = require('../models/Cart.model')
-const User = require('../models/User.model')
-const addressDB = require('../models/addresses.model')
-const SCart = require('../models/sCart.model')
+const Product = require('../models/Product.model');
+const User = require('../models/User.model');
+const addressDB = require('../models/addresses.model');
+const SCart = require('../models/sCart.model');
 const { isLoggedIn, isLoggedOut } = require('../middleware/route-guard.js');
 
-/* GET home page */
+/*------------------ // MAIN PAGE ------------------*/
+
 router.get("/", async (req, res, next) => {
   try {
     let allProducts = await Product.find();
@@ -101,8 +101,8 @@ router.get('/search-result', async(req, res) => {
   res.render('search-result');
 })
 
-/*------------------ SEARCH BAR ------------------*/
 
+/*------------------ PROFILE ROUTES ------------------*/
 
 router.get('/profile', isLoggedIn, async (req, res) => {
   try {
@@ -111,7 +111,6 @@ router.get('/profile', isLoggedIn, async (req, res) => {
     const user = await User.findById(req.session.user._id);
     const listOfAddresses = await addressDB.find({ uId: req.session.user._id });
     const allPurchases = await SCart.find({ uId: req.session.user._id, purchased: "true" });
-    //console.log("AAAAAAAAAAAAAAA", allPurchases[0].product)
     const allProducts = await Product.find();
     res.render('profile', { user, listOfAddresses, allPurchases, allProducts })
   }
@@ -160,13 +159,12 @@ router.post('/create', async (req, res, next) => {
   }
 })
 
-/*------------------ // CREATE PRODUCT ------------------*/
-
 router.get('/addAddress', (req, res, next) => {
   res.render('addAddress');
 })
 
-// create new Addresse
+/*------------------ // CREATE ADDRESS ------------------*/
+
 router.post('/addAddress', async (req, res, next) => {
   const user = req.session.user;
   try {
@@ -185,7 +183,7 @@ router.post('/addAddress', async (req, res, next) => {
   }
 })
 
-// delete Address
+/*------------------ // DELETE ADDRESS ------------------*/
 
 router.post('/deleteAddress/:id',async(req, res, next) => {
   
@@ -196,17 +194,8 @@ router.post('/deleteAddress/:id',async(req, res, next) => {
     console.log(error)
   }
 })
-router.get('/shopping-cart', (req, res) => {
-  res.render('shopping-cart');
-})
 
-router.post('/shopping-cart', async (req, res) => {
-  try {
-    
-  } catch (error) {
-    
-  }
-})
+/*------------------ // SHOPPING CARD ------------------*/
 
 router.get('/add-to-cart/:productId', async (req, res) => {
   const { productId } = req.params;
@@ -217,10 +206,9 @@ router.get('/add-to-cart/:productId', async (req, res) => {
 
 router.post('/addToSchoppingCard/:id',isLoggedIn, async(req, res, next) => {
   
-  userID = "" + req.session.user._id;
+  const userID = "" + req.session.user._id;
   try {
     const findCard = await SCart.findOneAndUpdate({uId: userID, purchased: "false"}, {$push: {product: {pId: req.params.id, quantity: req.body.quantity}}})
-
     res.redirect('/');
   } catch (error) {
     console.log(error)
@@ -261,8 +249,7 @@ router.post('/deleteFromShoppingCard/:id',async(req, res, next) => {
   }
 })
 
-
-// buy page
+/*------------------ // PURCHASE ROUTES ------------------*/
 
 router.get('/purchase',isLoggedIn, async (req, res, next) => {
   try{
@@ -291,8 +278,6 @@ router.get('/purchase',isLoggedIn, async (req, res, next) => {
   }
 })
 
-// delete from purchase page
-
 router.post('/deleteFromPurchase/:id',async(req, res, next) => {
   try {
     await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"} ,{$pull: {product: {_id: req.params.id}}})
@@ -301,8 +286,6 @@ router.post('/deleteFromPurchase/:id',async(req, res, next) => {
     console.log(error)
   }
 })
-
-
 
 // finish to buy - accept the purchase
 
@@ -320,14 +303,14 @@ router.post('/purchase/buy',async(req, res, next) => {
           uId: req.session.user._id
         }) 
        }
-
     res.redirect('/');
   } catch (error) {
     console.log(error)
   }
 })
 
-// a route of all products
+/*------------------ // ALL PRODUCTS ROUTES ------------------*/
+
 router.get("/allProducts", async (req, res, next) => {
   try {
     const allProducts = await Product.find();
@@ -338,6 +321,19 @@ router.get("/allProducts", async (req, res, next) => {
   }
 });
 
+// add products from All Products Page to shopping card
+
+router.post('/addToSchoppingCard/fromAllProducts/:id',isLoggedIn, async(req, res, next) => {
+  
+  const userID = "" + req.session.user._id;
+  try {
+    const findCard = await SCart.findOneAndUpdate({uId: userID, purchased: "false"}, {$push: {product: {pId: req.params.id, quantity: req.body.quantity}}})
+
+    res.redirect('/allProducts');
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 
 module.exports = router;

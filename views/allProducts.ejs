@@ -4,7 +4,7 @@
     <h2>No Products Yet</h2>
     <% } else { %>
         <% allProducts.forEach(product=> { %>
-            <form method="POST" action="/addToSchoppingCard/<%= product._id %>">
+            <form method="POST" action="/addToSchoppingCard/fromAllProducts/<%= product._id %>">
                 <div class="product-item">
                     <h3>
                         <%= product.name %> - <%= product.date %>
