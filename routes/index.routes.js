@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product.model')
+const Cart = require('../models/Cart.model')
 const User = require('../models/User.model')
 const addressDB = require('../models/addresses.model')
 const SCart = require('../models/sCart.model')
@@ -32,57 +33,126 @@ router.get("/", async (req, res, next) => {
       allProducts = randomProducts
     }
     
-    res.render("index", {allProducts});
-    
+    res.render("index", { allProducts });
   } catch (error) {
     console.log(error)
   }
 });
 
-router.get('/profile',isLoggedIn, async (req, res) => {
-  try{
-    //console.log('SESSION =====> ', req.session)
+/*------------------ SEARCH BAR ------------------*/
+
+router.get('/search', async (req, res, next) => {
+  try {
+    const products = await Product.find();
+    const regionsArr = [];
+    const datesArr = [];
+    const typesArr = [];
+    const designationsArr = [];
+
+    products.forEach(product => {
+      const region = product.region;
+      const date = product.date;
+      const type = product.type;
+      const designation = product.designation;
+      if (!regionsArr.includes(region)) {
+        regionsArr.push(region);
+      }
+      if (!datesArr.includes(date)) {
+        datesArr.push(date);
+      }
+      if (!typesArr.includes(type)) {
+        typesArr.push(type);
+      }
+      if (!designationsArr.includes(designation)) {
+        designationsArr.push(designation);
+      }
+    })
     
-      const user = await User.findById(req.session.user._id);
-      const listOfAddresses = await addressDB.find({uId: req.session.user._id});
-      const allPurchases = await SCart.find({uId: req.session.user._id, purchased: "true"});
-      //console.log("AAAAAAAAAAAAAAA", allPurchases[0].product)
-      const allProducts = await Product.find();
-      res.render('profile', { user, listOfAddresses, allPurchases, allProducts})
-      } 
+    regionsArr.sort();
+    datesArr.sort();
+    typesArr.sort();
+    designationsArr.sort();
+
+    res.render('search', { products, regionsArr, datesArr, typesArr, designationsArr })
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+router.post('/search', async (req, res, next) => {
+  const { region, date, type, designation} = req.body;
+  let searchResult;
+  if (region !== '' && date !== '' && type !== '' && designation !== ''){
+    searchResult = await Product.find({ region: region, date: date, type: type, designation: designation });
+  } else if (region !== '' && date === '' && type === '' && designation === '') {
+    searchResult = await Product.find({ region: region })
+  } else if (region === '' && date !== '' && type === '' && designation === '') {
+    searchResult = await Product.find({ date: date })
+  } else if (region === '' && date === '' && type === '' && designation !== '') {
+    searchResult = await Product.find({ designation: designation })
+  } else if (region === '' && date === '' && type !== '' && designation === '') {
+    searchResult = await Product.find({ type: type })
+  } 
+  res.render('search-result', {searchResult});
+})
+
+router.get('/search-result', async(req, res) => {
+  console.log(req.body);
+  res.render('search-result');
+})
+
+/*------------------ SEARCH BAR ------------------*/
+
+
+router.get('/profile', isLoggedIn, async (req, res) => {
+  try {
+    //console.log('SESSION =====> ', req.session)
+
+    const user = await User.findById(req.session.user._id);
+    const listOfAddresses = await addressDB.find({ uId: req.session.user._id });
+    const allPurchases = await SCart.find({ uId: req.session.user._id, purchased: "true" });
+    //console.log("AAAAAAAAAAAAAAA", allPurchases[0].product)
+    const allProducts = await Product.find();
+    res.render('profile', { user, listOfAddresses, allPurchases, allProducts })
+  }
   catch (error) {
-    console.log(error)
+    console.log(error);
   }
 })
 
 router.post('/profile', async (req, res) => {
   const user = req.session.user;
-  const { fName, lName, email, credit} = req.body;
-  
+  const { fName, lName, email, credit } = req.body;
+
   try {
     await User.findByIdAndUpdate(user._id,
-      {fName, lName, email, credit}, { new: true });
-      res.redirect('/profile');
-    }
-  
+      { fName, lName, email, credit }, { new: true });
+    res.redirect('/profile');
+  }
+
   catch (error) {
     console.log(error)
   }
-  })
+})
+
+/*------------------ CREATE PRODUCT ------------------*/
+/*------ Should be accessible only for the Admin -----*/
 
 router.get('/create', (req, res, next) => {
   res.render('create');
 })
 
-router.post('/create',async(req, res, next) => {
+router.post('/create', async (req, res, next) => {
   try {
+    const { name, region, designation, type, date, picture, price } = req.body;
     await Product.create({
-      name: req.body.name,
-      date: req.body.date,
-      region: req.body.region,
-      description: req.body.description,
-      picture: req.body.picture,
-      price: req.body.price,
+      name: name,
+      region: region,
+      designation: designation,
+      type: type,
+      date: date,
+      picture: picture,
+      price: price
     })
     res.redirect('/create');
   } catch (error) {
@@ -90,12 +160,14 @@ router.post('/create',async(req, res, next) => {
   }
 })
 
+/*------------------ // CREATE PRODUCT ------------------*/
+
 router.get('/addAddress', (req, res, next) => {
   res.render('addAddress');
 })
 
 // create new Addresse
-router.post('/addAddress',async(req, res, next) => {
+router.post('/addAddress', async (req, res, next) => {
   const user = req.session.user;
   try {
     await addressDB.create({
@@ -123,6 +195,24 @@ router.post('/deleteAddress/:id',async(req, res, next) => {
   } catch (error) {
     console.log(error)
   }
+})
+router.get('/shopping-cart', (req, res) => {
+  res.render('shopping-cart');
+})
+
+router.post('/shopping-cart', async (req, res) => {
+  try {
+    
+  } catch (error) {
+    
+  }
+})
+
+router.get('/add-to-cart/:productId', async (req, res) => {
+  const { productId } = req.params;
+  const userId = req.session.user._id;
+  let newCart = await Cart.findOneAndUpdate({ user: userId }, { $push: { product: productId } });
+  res.redirect('/');
 })
 
 router.post('/addToSchoppingCard/:id',isLoggedIn, async(req, res, next) => {
