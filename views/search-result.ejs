@@ -32,8 +32,21 @@
             <p class="price">
                 <%= product.price %>
             </p>
+
             <!-- <button>Add to the shopping Cart</button> -->
-            <a href="/add-to-cart/<%= product.id %>">Add to the Shopping Cart</a>
+
+            <form method="POST" action="/addToSchoppingCard/fromSearchResult/<%= product.id %>">
+                <div><label>Quantity: 
+                    <select name="quantity">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    </select></label></div>
+                <button type="submit">Add to the Shopping Cart</button>
+            </form>
+
         </div>
         <% }) %>
     <% } %>

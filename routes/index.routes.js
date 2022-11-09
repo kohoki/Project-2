@@ -101,13 +101,23 @@ router.get('/search-result', async(req, res) => {
   res.render('search-result');
 })
 
+// add Products from searche Page to Shopping Card
+
+router.post('/addToSchoppingCard/fromSearchResult/:id',isLoggedIn, async(req, res, next) => {
+  const userID = "" + req.session.user._id;
+  try {
+    const findCard = await SCart.findOneAndUpdate({uId: userID, purchased: "false"}, {$push: {product: {pId: req.params.id, quantity: req.body.quantity}}})
+    res.redirect('/search-result');
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 /*------------------ PROFILE ROUTES ------------------*/
 
 router.get('/profile', isLoggedIn, async (req, res) => {
   try {
     //console.log('SESSION =====> ', req.session)
-
     const user = await User.findById(req.session.user._id);
     const listOfAddresses = await addressDB.find({ uId: req.session.user._id });
     const allPurchases = await SCart.find({ uId: req.session.user._id, purchased: "true" });
@@ -324,11 +334,9 @@ router.get("/allProducts", async (req, res, next) => {
 // add products from All Products Page to shopping card
 
 router.post('/addToSchoppingCard/fromAllProducts/:id',isLoggedIn, async(req, res, next) => {
-  
   const userID = "" + req.session.user._id;
   try {
     const findCard = await SCart.findOneAndUpdate({uId: userID, purchased: "false"}, {$push: {product: {pId: req.params.id, quantity: req.body.quantity}}})
-
     res.redirect('/allProducts');
   } catch (error) {
     console.log(error)
