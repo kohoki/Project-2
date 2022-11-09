@@ -42,7 +42,14 @@
  <% allPurchases.forEach (purchase => { %>
   <p>Date: <%= purchase.createdAt %></p>
   <% purchase.product.forEach(product => { %>
-    <p>ID: <%= product.pId %></p> 
+    <p>ID: <%= product.pId %></p>
+    <% let id1 = "" + product.pId %>
+    <% allProducts.forEach(element => { %>
+      <% let id2 = "" + element._id %>
+
+    <% }) %>
+    
+    <p>IDProduct: <%= allProducts[0]._id  %></p>
     
     <p>quantity: <%= product.quantity %> </p>
     <p>------------------------</p>

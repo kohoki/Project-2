@@ -9,21 +9,31 @@ const { isLoggedIn, isLoggedOut } = require('../middleware/route-guard.js');
 /* GET home page */
 router.get("/", async (req, res, next) => {
   try {
-    const allProducts = await Product.find();
-    // let randomNumbers = [];
-    // while (randomNumbers.length < 4) {
-    //   let number = Math.floor(Math.random() * (product.length - 1) + 1);
-    //   if (randomNumbers.indexOf(number) === -1) {
-    //     randomNumbers.push(number);
-    //   }
-    // }
-    // let randomProducts = [];
-    // randomNumbers.forEach(element => {
-    //   randomProducts.push(product[element])
-    // });
+    let allProducts = await Product.find();
+    let counter = 0;
+    if (allProducts.length > 4)
+    {
+      let randomNumbers = [];
+      while (randomNumbers.length < 4) {
+        let number = Math.floor(Math.random() * (allProducts.length - 1) + 1);
+        if (randomNumbers.indexOf(number) === -1) {
+          randomNumbers.push(number);
+        }
+        counter +=1;
+          if (counter > 20)
+          {
+            break;
+          }
+      }
+      let randomProducts = [];
+      randomNumbers.forEach(element => {
+        randomProducts.push(allProducts[element])
+      });
+      allProducts = randomProducts
+    }
     
-    //console.log(allProducts)
     res.render("index", {allProducts});
+    
   } catch (error) {
     console.log(error)
   }
@@ -36,9 +46,9 @@ router.get('/profile',isLoggedIn, async (req, res) => {
       const user = await User.findById(req.session.user._id);
       const listOfAddresses = await addressDB.find({uId: req.session.user._id});
       const allPurchases = await SCart.find({uId: req.session.user._id, purchased: "true"});
-      console.log("AAAAAAAAAAAAAAA", allPurchases[0].product)
-      
-      res.render('profile', { user, listOfAddresses, allPurchases})
+      //console.log("AAAAAAAAAAAAAAA", allPurchases[0].product)
+      const allProducts = await Product.find();
+      res.render('profile', { user, listOfAddresses, allPurchases, allProducts})
       } 
   catch (error) {
     console.log(error)
