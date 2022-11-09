@@ -11,7 +11,6 @@
     <button type="submit">Update</button>
   </form>
 
-
 <h3>Addresses:</h3>
 <% if(listOfAddresses.length > 0) { %>
     <% listOfAddresses.forEach(element => { %>
@@ -39,7 +38,6 @@
 </form>
 
 
-
 <h3>Your purchases</h3>
  <% allPurchases.forEach (purchase => { %>
   <p>Date: <%= purchase.createdAt %></p>
@@ -62,8 +60,6 @@
   <p>You paid total: <%= purchase.sum %> gold coins</p>
   <p>###########################</p>
  <% }) %>  
-
-
 
   <% if (typeof errorMessage !== 'undefined') { %>
     <p style="color: red"><%= errorMessage %></p>

@@ -16,30 +16,34 @@
        
     <% }) %>
 <% }) %>
-<form method="POST" action="/purchase/buy">
-<h3>Sent to:</h3>
-<% if(listOfAddresses.length > 0) { %>
-    <% listOfAddresses.forEach(element => { %>
-    
-    
-    
 
+<h3>Sent to:</h3>
+<form method="POST" action="/purchase/buy">
+<% if(listOfAddresses.length > 0) { %>
+  
+    <% listOfAddresses.forEach(element => { %>
+    <fieldset>
+      <p></p>
     <div>First Name: <%= element.fName  %></div>
     <div>Last Name: <%= element.lName  %></div>
     <div>Address Line: <%= element.aLine  %></div>
     <div>City: <%= element.city  %></div>
     <div>Zip/Postal Code: <%= element.zip  %></div>
     <div>Country: <%= element.country  %></div>
-    <input type="radio" name="_id" value="<%= element._id %>">
+    <input type="radio" name="_id" value="<%= element._id %>" checked>
     <p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-    
+    <p></p>
+  </fieldset>
+  <p></p>
   <%  }); %> 
 <% } else { %>
   <p>No Addresses in your Database</p>
-  <form method="get" action="/addAddress">
+  <a href="/addAddress">Add Adress please :-)</a>
+  <!-- <form method="get" action="/addAddress">
     <button type="submit">Add Address</button>
-  </form>
+  </form> -->
 <% } %>
+
 <p></p>
 
 <p>Total Value: <%= sumAll %> gold coins</p>
@@ -48,11 +52,17 @@
     <p>Not enough Money - sry</p>
     <p>Please update your Credit.</p>
     <a href="/profile">Update your Credit</a>
-    <% } else { %>
-
+    <% }else if (sCardProducts < 1){ %>
+        <p>NO Products to pay for :-( </p>
     
-        <p>xxxxxxxxxxxxxxxxxxxxx</p>
-        <button type="submit">Buy</button>
-        <p>xxxxxxxxxxxxxxxxxxxxx</p>
-    </form>
-    <% } %>
+        
+    <% } else if (listOfAddresses.length < 1) { %>
+        <p>where should we send the products</p>
+    
+    <% } else { %>
+      
+      <p>xxxxxxxxxxxxxxxxxxxxx</p>
+      <button type="submit">Buy</button>
+      <p>xxxxxxxxxxxxxxxxxxxxx</p>
+      </form>
+      <% } %>

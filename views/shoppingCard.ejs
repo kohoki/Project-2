@@ -17,12 +17,17 @@
        
     <% }) %>
 <% }) %>
-<p>Total Value: <%= sumAll %> gold coin</p>
 
-<form method="get" action="/purchase">
-    <p>xxxxxxxxxxxxxxxxxxxxx</p>
-    <button type="submit">i want to buy all of it</button>
-    <p>xxxxxxxxxxxxxxxxxxxxx</p>
-</form>
+<% if(sCardProducts.length >= 1 ) {%>
+    <p>Total Value: <%= sumAll %> gold coins</p>
+    <form method="get" action="/purchase">
+        <p>xxxxxxxxxxxxxxxxxxxxx</p>
+        <button type="submit">i want to buy all of it</button>
+        <p>xxxxxxxxxxxxxxxxxxxxx</p>
+    </form>
+<% }else{ %>
+    <p>is empty :-( </p>
+<% } %>
+
 
 
