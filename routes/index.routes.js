@@ -296,11 +296,17 @@ router.post('/deleteFromPurchase/:id',async(req, res, next) => {
 
 router.post('/purchase/buy',async(req, res, next) => {
   try {
-    
+    // update users credit
+    const SCard = await SCart.find({uId: req.session.user._id, purchased: "false"});
+    const currentUser = await User.findOne({_id: req.session.user._id });
+    const newCredit = currentUser.credit - SCard[0].sum;
+    await User.findOneAndUpdate({_id: req.session.user._id}, {credit: newCredit});
+
     // update your shopping card - the choosen address and that you purchased your shopping card
     await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {address: req.body._id});
     await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {purchased: true});
-    // now we need a new clean shopping Card
+    
+    // now we need a new shopping Card
     findSCard = await SCart.find({uId: req.session.user._id, purchased: "false"})
     if(findSCard.length < 1)
        {
