@@ -237,5 +237,17 @@ router.post('/purchase/buy',async(req, res, next) => {
   }
 })
 
+// a route of all products
+router.get("/allProducts", async (req, res, next) => {
+  try {
+    const allProducts = await Product.find();
+    res.render("allProducts", {allProducts});
+    
+  } catch (error) {
+    console.log(error)
+  }
+});
+
+
 
 module.exports = router;
