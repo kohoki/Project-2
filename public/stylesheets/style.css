@@ -23,7 +23,6 @@ a {
 
 nav{
   width: 100%;
-  position: fixed;
 }
 
 .menu{
@@ -129,6 +128,7 @@ nav{
 
 .name, .price{
   text-transform: uppercase;
+  color: blueviolet;
   font-size: 20px;
   font-weight: 600;
 }
