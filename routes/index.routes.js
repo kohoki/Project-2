@@ -108,7 +108,6 @@ router.post('/addToSchoppingCard/fromSearchResult/:id',isLoggedIn, async(req, re
   const userID = "" + req.session.user._id;
   try {
     const findCard = await SCart.findOneAndUpdate({uId: userID, purchased: "false"}, {$push: {product: {pId: req.params.id, quantity: req.body.quantity}}})
-    //res.redirect('/search-result');
     res.render('search-result', {searchResult});
   } catch (error) {
     console.log(error)
@@ -303,7 +302,17 @@ router.post('/purchase/buy',async(req, res, next) => {
     await User.findOneAndUpdate({_id: req.session.user._id}, {credit: newCredit});
 
     // update your shopping card - the choosen address and that you purchased your shopping card
-    await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {address: req.body._id});
+
+    const listOfAddresses = await addressDB.find({ uId: req.session.user._id });
+    let addAddressToPurchase = ""
+    listOfAddresses.forEach(address => {
+      let id = "" + address._id;
+      if(id === req.body._id)
+      {
+        addAddressToPurchase += address.fName + " " + address.lName + ", " + address.aLine + ", " + address.zip + " " + address.city;
+      }
+    });
+    await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {address: addAddressToPurchase});
     await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {purchased: true});
     
     // now we need a new shopping Card
