@@ -1,17 +1,18 @@
-<h1>Add a Address</h1>
+<div class="main-ctn">
+  <h2>Your Address</h2>
+    <form class="add-address-form" method="POST" action="/addAddress">
 
-<form method="POST" action="/addAddress">
+      <div><label><input class='input' placeholder='First Name' type="text" name="fName" required /></label></div>
+      <div><label><input class='input' placeholder='Last Name' type="text" name="lName" required /></label></div>
+      <div><label><input class='input' placeholder='Address Line' type="text" name="aLine" required /></label></div>
+      <div><label><input class='input' placeholder='City' type="text" name="city" required /></label></div>
+      <div><label><input class='input' placeholder='Zip Code' type="number" name="zip" required /></label></div>
+      <div><label><input class='input' placeholder='Country' type="text" name="country" required /></label></div>
 
-  <div><label>First Name:<input type="text" name="fName" required /></label></div>
-  <div><label>Last Name:<input type="text" name="lName" required /></label></div>
-  <div><label>Address Line:<input type="text" name="aLine" required /></label></div>
-  <div><label>City:<input type="text" name="city" required /></label></div>
-  <div><label>Zip/Postal Code:<input type="number" name="zip" required /></label></div>
-  <div><label>Country:<input type="text" name="country" required /></label></div>
+      <button class='btn' type="submit">Add</button>
+    </form>
 
-  <button type="submit">Add</button>
-</form>
-
-<% if (typeof errorMessage !== "undefined") { %>
-<p><%= errorMessage %></p>
-<% } %>
+    <% if (typeof errorMessage !== "undefined") { %>
+    <p><%= errorMessage %></p>
+    <% } %>
+</div>

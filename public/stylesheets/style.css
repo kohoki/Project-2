@@ -5,12 +5,11 @@
   padding: 0;
   border: 0;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 body{
   font-family: 'Poppins', sans-serif;
-  background-color: beige;
   width: 100vw;
   height: 100vh;
 }
@@ -26,8 +25,8 @@ a {
 
 nav{
   width: 100%;
-  /* position: fixed;
-  background-color: beige; */
+  position: fixed;
+  background-color: white;
 }
 
 .main-ctn{
@@ -77,7 +76,7 @@ nav{
 
 .cart {
   background-color: blueviolet;
-  border-radius: 10px;
+  border-radius: 0.5em;
 }
 
 .cart a {
@@ -102,13 +101,13 @@ nav{
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 0.5em;
 }
 
 .product-grid {
   display: grid;
   grid-template-columns: repeat(3, 400px);
-  grid-gap: 10px;
+  grid-gap: 0.5em;
 }
 
 .product-item{
@@ -117,7 +116,7 @@ nav{
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 14px;
+  border-radius: 8px;
 }
 
 .product-data {
@@ -137,7 +136,7 @@ nav{
 }
 
 .item-info-ctn{
-  padding: 20px 0 0;
+  padding: 0.8em 0 0;
 }
 
 .product-add-ctn{
@@ -145,31 +144,31 @@ nav{
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid lightgray;
-  margin: 20px 20px;
+  margin: 0.8em 0.8em;
 }
 
 .product-price, .product-cmds{
   display: flex;
-  padding-top: 20px;
+  padding-top: 0.8em;
 }
 
 .name, .price{
   text-transform: uppercase;
   color: blueviolet;
-  font-size: 20px;
+  font-size: 0.8em;
   font-weight: 600;
 }
 
 .qty-selector{
   height: 2em;
-  margin-right: 10px;
+  margin-right: 0.5em;
 }
 
 .btn {
   height: 2em;
   border-radius: 30px;
   border: 0;
-  padding: 0 20px;
+  padding: 0 0.8em;
   background-color: blueviolet;
   color: white;
 }
@@ -180,7 +179,7 @@ nav{
   height: 3em;
   border-radius: 30px;
   border: 0;
-  padding: 0 20px;
+  padding: 0 0.8em;
   background-color: blueviolet;
   margin: 100px 0;
 }
@@ -195,12 +194,12 @@ nav{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 0.5em;
   text-align: center;
   line-height: 3em;
   background-color: black;
-  border-radius: 14px;
-  padding: 20px;
+  border-radius: 8px;
+  padding: 0.8em;
   color: white;
 }
 
@@ -213,7 +212,7 @@ nav{
   text-align: center;
   text-decoration: none;
   border-radius: 30px;
-  margin: 0 20px 10px;
+  margin: 0.5em;
 }
 
 .search-btn .btn{
@@ -223,14 +222,143 @@ nav{
 .user-ctn{
   width: 100%;
   display: flex;
+  flex-direction: column;
 }
 
-.left-info, .right-orders{
-  width: 50%;
+.top-info, .bottom-orders{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.bottom-orders{
+  margin-top: 100px;
+}
+
+.infos-ctn{
+  display: flex;
+  flex-direction: column;
+}
+
+/* Profile */
+.update-infos{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.update-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.update-infos .btn{
+  margin-top: 40px;
+}
+
+.input{
+  width: 10vw;
+  height: 3rem;
+  border: 0;
+  border-radius: 30px;
+  text-align: center;
+  margin: 0.5em;
+  padding: 0.8em;
+  background-color: #EAECEE;
+}
+
+.address-ctn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+}
+
+.address-item{
+  height: 15em;
+  width: 25em;
+  display: flex;
+  padding: 1.2em;
+  margin: 0 0.5em;
+  background-color: #EAECEE;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.address-item form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.address-item button {
+  background-color: white;
+  color: black;
+}
+
+.address-index{
+  margin-bottom: 0.8em;
+}
+
+.add-new-address button{
+  width: 60px;
+  height: 60px;
+  margin-left: 0.8em;
+}
+
+.add-address-form{
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Profile */
+/* Orders */
+.new-order{
+  display: flex;
+  width: 40em;
+  flex-direction: column;
+  margin: 2em 0;
+  padding: 1.2em;
+  background-color: white;
+  border-radius: 8px;
+}
 
+.order-date{
+  display: block;
+  margin-bottom: 1em;
+}
+
+.order-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8em 0;
+  border-bottom: 1px solid grey;
+}
+
+.order-data{
+  margin-top: 2em;
+  display: flex;
+  
+}
+
+.delivery-address{
+  width: 80%;
+  text-align: left;
+}
+
+.delivery-address span, .order-total span{
+    font-style: oblique;
+}
+
+.order-total{
+  width: 20%;
+  text-align: right;
+}

@@ -3,81 +3,99 @@
     <h2>Hello <%= user.username %>!</h2>
   </div>
   <div class="user-ctn">
-    <div class="left-info">
-      <h3>Your informations</h3>
-      <div class="address-ctn">
+    <div class="top-info">
+      <div class="infos-ctn">
+        <h3>Update your infos</h3>
         <div class="update-infos">
-          <h3>Update your infos</h3>
           <form class='update-form' method="POST" action="/profile">
-            <label class="update-label"><input class="update-input" type="text" name="fName" value="<%= user.fName %>" /></label>
-            <label class="update-label"><input class="update-input" type="text" name="lName" value="<%= user.lName %>" /></label>
-            <label class="update-label"><input class="update-input" type="text" name="email" value="<%= user.email %>" /></label>
-            <label class="update-label"><input class="update-input" type="number" name="credit" value="<%= user.credit %>" /></label>
+            <label class="update-label"><input class="input" type="text" name="fName" value="<%= user.fName %>"  /></label>
+            <label class="update-label"><input class="input" type="text" name="lName" value="<%= user.lName %> " /></label>
+            <label class="update-label"><input class="input" type="text" name="email" value="<%= user.email %> " /></label>
+            <label class="update-label"><input class="input" type="number" name="credit" value="<%= user.credit %> " /></label>
 
             <button class='btn' type="submit">Update</button>
           </form>
         </div> <!-- close update-infos -->
-      <div class="addresses-item">
-        <h3>Addresses:</h3>
-        <% if(listOfAddresses.length> 0) { %>
-          <% listOfAddresses.forEach(element=> { %>
-            <div class="adress-item">
-              <form method="POST" action="/deleteAddress/<%= element._id %>">
-                <p><%= element.lName %> <%= element.fName %></p>
-                <p><%= element.aLine %></p>
-                <p><%= element.city %></p>
-                <p><%= element.zip %></p>
-                <p><%= element.country %> </p>
-                <button class="btn" type="submit">Delete</button>
-              </form>
-            </div>
-          <% }); %>
-        <% } else { %>
-          <p>Don't have an address yet!</p>
-        <% } %>
-      </div> <!-- close address-item -->
-      <div class="add-new-address">
-        <form method="get" action="/addAddress">
-          <button class='btn' type="submit">Add</button>
-        </form>
-      </div> <!-- close add-new-address -->
-    </div> <!-- close address-ctn -->
-  </div> <!-- close left-intro-->
+        <div class="address-ctn">
+          <% if(listOfAddresses.length> 0) { %>
+            <% listOfAddresses.forEach((element, index)=> { %>
+              <div class="address-item">
+                <form method="POST" action="/deleteAddress/<%= element._id %>">
+                  <div class="top">
+                    <p class="address-index">Address <%= index + 1 %></p>
+                    <p><%= element.lName %> <%= element.fName %></p>
+                    <p><%= element.aLine %></p>
+                    <p><%= element.city %>, <%= element.zip %></p>
+                    <p><%= element.country %> </p>
+                  </div>
+                  <div class="bottom">
+                    <button class="btn" type="submit">Delete</button>
+                  </div>
+                </form>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p>Don't have an address yet!</p>
+          <% } %>
+        
+          <div class="add-new-address">
+          <form method="get" action="/addAddress">
+            <button class='btn' type="submit">+</button>
+          </form>
+          </div> <!-- close add-new-address -->
+        </div> <!-- close address-item -->
+      </div> <!-- close infos-ctn -->
+    </div> <!-- close top-info -->
+  </div> <!-- close user-ctn-->
 
 
-  <div class="right-orders">
-    <h3>Your purchases</h3>
+  <div class="bottom-orders">
+    <h2>Last Orders</h2>
+    
     <% allPurchases.forEach (purchase=> { %>
-      <p>Date: <%= purchase.createdAt %>
+      <div class="new-order">
+      
+        <div class="order-date">
+          <p><%= purchase.createdAt %></p>
+        </div>
+        
+        <div class="order-products">
+        <% purchase.product.forEach(product=> { %>
+          <% let id1="" + product.pId %>
+            <% allProducts.forEach(element=> { %>
+              <% let id2="" + element._id %>
+                <% if (id1===id2) { %>
+                  <div class="order-item">
+                  <p><%= element.name %></p>
+                  <p><%= element.date %></p>
+                  <p><%= product.quantity %></p>
+                  <p><%= element.price %>€</p>
+                  </div>
+              <% } %>
+            <% }) %>  
+        <% }) %> 
+        </div>
+
+        <div class="order-data">      
+          <div class="delivery-address">
+            <span>Delivery Address</span>
+            <p><%= purchase.address %></p>
+          </div>
+
+          <div class="order-total">
+            <span>Total</span>
+            <p><%= purchase.sum %>€</p>
+          </div>
+        </div>
+
+      </div>
+    <% }) %>
+    
+    <% if (typeof errorMessage !=='undefined' ) { %>
+      <p style="color: red">
+        <%= errorMessage %>
       </p>
-      <% purchase.product.forEach(product=> { %>
-        <% let id1="" + product.pId %>
-          <% allProducts.forEach(element=> { %>
-            <% let id2="" + element._id %>
-              <% if (id1===id2) { %>
-                <p>Name: <%= element.name %>
-                </p>
-                <p>Date: <%= element.date%>
-                </p>
-                <p>Price: <%= element.price%> gold coins</p>
-                <% } %>
-                  <% }) %>
-                    <p>quantity: <%= product.quantity %>
-                    </p>
-                    <p>------------------------</p>
-                    <% }) %>
-                      <p>Sent to: <%= purchase.address %>
-                      </p>
-
-                      <p>You paid total: <%= purchase.sum %> gold coins</p>
-                      <p>###########################</p>
-                      <% }) %>
-
-                        <% if (typeof errorMessage !=='undefined' ) { %>
-                          <p style="color: red">
-                            <%= errorMessage %>
-                          </p>
-                          <% } %>
-    </div>
-  </div>
+    <% } %>
+    
+  </div> <!-- End Bottom Orders-->
 </div> <!-- End main-->
