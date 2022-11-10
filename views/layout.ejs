@@ -7,22 +7,31 @@
     <title>OnlineShop</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
-  <nav>
-    <ul>
-      <li><a href="/">Home</a></li><br>
-      <li><a href="/auth/signup">Sign up</a></li><br>
-      <li><a href="/auth/login">login</a></li><br>
-      <li><a href="/auth/logout">logout</a></li><br>
-      <li><a href="/profile">profile</a></li><br>
-      <li><a href="/create">create</a></li><br>
-      <li><a href="/search">search</a></li><br>
-      <li><a href="/ShoppingCard">ShoppingCard</a></li><br>
-      <li><a href="/allProducts">all Products</a></li><br>
-    </ul>   
-  </nav>
-
 
   <body>
+
+    <nav id='nav-bar'>
+      <div class="menu">
+        <div class="left">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/allProducts">Products</a></li>
+            <li><a href="/search">Research</a></li>
+          </ul>
+        </div>
+        <div class="right">
+          <ul>
+            <li><a href="/auth/signup">Sign Up</a></li>
+            <li><a href="/auth/login">Log In</a></li>
+            <li><a href="/profile">Your Profile</a></li>
+            <li><a href="/auth/logout">Log Out</a></li>
+            <!-- Administrator -->
+            <li><a href="/create">Create Product</a></li>
+            <li class="cart"><a href="/ShoppingCard">Cart</a></li>
+          </div>
+        </ul>
+      </div>
+    </nav>
 
     <%- body %>
 
