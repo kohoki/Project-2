@@ -78,10 +78,10 @@ router.get('/search', async (req, res, next) => {
     console.log(error);
   }
 })
-let searchResult = 0;
+
 router.post('/search', async (req, res, next) => {
   const { region, date, type, designation} = req.body;
-  //let searchResult;
+  let searchResult = 0;
   try {
     if (region !== '' && date !== '' && type !== '' && designation !== ''){
       searchResult = await Product.find({ region: region, date: date, type: type, designation: designation });
@@ -101,7 +101,6 @@ router.post('/search', async (req, res, next) => {
 })
 
 router.get('/search-result', async(req, res) => {
-  // console.log(req.body);
   res.render('search-result');
 })
 
@@ -111,14 +110,7 @@ router.post('/addToSchoppingCard/fromSearchResult/:id',isLoggedIn, async(req, re
   const userID = "" + req.session.user._id;
   try {
     const findCard = await SCart.findOneAndUpdate({uId: userID, purchased: "false"}, {$push: {product: {pId: req.params.id, quantity: req.body.quantity}}})
-    console.log("AAAAAAAAAAAAAAA", searchResult)
-    if (typeof searchResult === 'undefined')
-    {
-      res.render('search');
-    }
-    else{
-      res.render('search-result', {searchResult});
-    }
+    res.redirect('/');
   } catch (error) {
     console.log(error)
   }
