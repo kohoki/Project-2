@@ -24,10 +24,6 @@ router.post('/signup', async (req, res) => {
       password: hashedPassword,
     })
 
-    await Cart.create({
-      user: newUser._id
-    })
-
     res.redirect('/auth/login')
   } catch (error) {
     console.log(error.message)
