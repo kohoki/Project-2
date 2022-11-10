@@ -16,10 +16,10 @@
     <% } else { %>
         <% searchResult.forEach(product => { %>
         <div>
+            <img src="<%= product.picture %>" alt="" style="height: 600px">
             <h3 class="name">
                 <%= product.name %>
             </h3>
-            <img src="<%= product.picture %>" alt="" style="height: 600px">
             <p class="region">
                 <%= product.region %>
             </p>
