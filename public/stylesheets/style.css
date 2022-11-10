@@ -10,12 +10,12 @@
 
 body{
   font-family: 'Poppins', sans-serif;
-  background-color:papayawhip;
+  background-color: beige;
   width: 100vw;
   height: 100vh;
 }
 
-h1{
+h1, h2{
   font-size: 42px;
 }
 
@@ -26,6 +26,24 @@ a {
 
 nav{
   width: 100%;
+  /* position: fixed;
+  background-color: beige; */
+}
+
+.main-ctn{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main .title{
+  margin-top: 200px;
+}
+
+.index-main{
+  padding-bottom: 200px;
 }
 
 .menu{
@@ -170,3 +188,49 @@ nav{
 .search-redirect a {
   color: white;
 }
+
+.search-ctn {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  line-height: 3em;
+  background-color: black;
+  border-radius: 14px;
+  padding: 20px;
+  color: white;
+}
+
+.field select{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 360px;
+  height: 3em;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 30px;
+  margin: 0 20px 10px;
+}
+
+.search-btn .btn{
+  width: 360px;
+}
+
+.user-ctn{
+  width: 100%;
+  display: flex;
+}
+
+.left-info, .right-orders{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Profile */
+
