@@ -82,23 +82,26 @@ let searchResult;
 router.post('/search', async (req, res, next) => {
   const { region, date, type, designation} = req.body;
   //let searchResult;
-  if (region !== '' && date !== '' && type !== '' && designation !== ''){
-    searchResult = await Product.find({ region: region, date: date, type: type, designation: designation });
-  } else if (region !== '' && date === '' && type === '' && designation === '') {
-    searchResult = await Product.find({ region: region })
-  } else if (region === '' && date !== '' && type === '' && designation === '') {
-    searchResult = await Product.find({ date: date })
-  } else if (region === '' && date === '' && type === '' && designation !== '') {
-    searchResult = await Product.find({ designation: designation })
-  } else if (region === '' && date === '' && type !== '' && designation === '') {
-    searchResult = await Product.find({ type: type })
-  } 
-  console.log("AAAAAAAAAAAAAAAAA", searchResult)
-  res.render('search-result', {searchResult});
+  try {
+    if (region !== '' && date !== '' && type !== '' && designation !== ''){
+      searchResult = await Product.find({ region: region, date: date, type: type, designation: designation });
+    } else if (region !== '' && date === '' && type === '' && designation === '') {
+      searchResult = await Product.find({ region: region })
+    } else if (region === '' && date !== '' && type === '' && designation === '') {
+      searchResult = await Product.find({ date: date })
+    } else if (region === '' && date === '' && type === '' && designation !== '') {
+      searchResult = await Product.find({ designation: designation })
+    } else if (region === '' && date === '' && type !== '' && designation === '') {
+      searchResult = await Product.find({ type: type })
+    } 
+    res.render('search-result', {searchResult});
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 router.get('/search-result', async(req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   res.render('search-result');
 })
 
@@ -108,6 +111,7 @@ router.post('/addToSchoppingCard/fromSearchResult/:id',isLoggedIn, async(req, re
   const userID = "" + req.session.user._id;
   try {
     const findCard = await SCart.findOneAndUpdate({uId: userID, purchased: "false"}, {$push: {product: {pId: req.params.id, quantity: req.body.quantity}}})
+    console.log("AAAAAAAAAAAAAAA", searchResult)
     res.render('search-result', {searchResult});
   } catch (error) {
     console.log(error)

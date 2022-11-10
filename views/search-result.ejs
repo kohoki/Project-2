@@ -18,7 +18,7 @@
             <% } else { %>
                 <% searchResult.forEach(product=> { %>
                     <div class="product-item">
-                        <form method="POST" action="/addToSchoppingCard/<%= product._id %>">
+                        <form method="POST" action="/addToSchoppingCard/fromSearchResult/<%= product._id %>">
     
                             <!-- Product Data -->
                             <div class="product-data">
@@ -80,7 +80,7 @@
             <% } else { %>
                 <% searchResult.forEach(product=> { %>
                     <div class="product-item">
-                        <form method="POST" action="/addToSchoppingCard/<%= product._id %>">
+                        <form method="POST" action="/addToSchoppingCard/fromSearchResult/<%= product._id %>">
     
                             <!-- Product Data -->
                             <div class="product-data">
