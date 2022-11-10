@@ -78,7 +78,7 @@ router.get('/search', async (req, res, next) => {
     console.log(error);
   }
 })
-let searchResult;
+let searchResult = 0;
 router.post('/search', async (req, res, next) => {
   const { region, date, type, designation} = req.body;
   //let searchResult;
@@ -112,7 +112,13 @@ router.post('/addToSchoppingCard/fromSearchResult/:id',isLoggedIn, async(req, re
   try {
     const findCard = await SCart.findOneAndUpdate({uId: userID, purchased: "false"}, {$push: {product: {pId: req.params.id, quantity: req.body.quantity}}})
     console.log("AAAAAAAAAAAAAAA", searchResult)
-    res.render('search-result', {searchResult});
+    if (typeof searchResult === 'undefined')
+    {
+      res.render('search');
+    }
+    else{
+      res.render('search-result', {searchResult});
+    }
   } catch (error) {
     console.log(error)
   }
