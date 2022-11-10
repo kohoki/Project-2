@@ -236,7 +236,7 @@ router.get('/ShoppingCard',isLoggedIn, async (req, res, next) => {
       })
     });
     await SCart.findOneAndUpdate({uId: req.session.user._id, purchased: "false"}, {sum: sumAll});
-    res.render('ShoppingCard', {allProducts, sCardProducts, sumAll} );
+    res.render('shoppingCard', {allProducts, sCardProducts, sumAll} );
   }
   catch (error) {
     console.log(error)

@@ -4,12 +4,15 @@
   margin: 0;
   padding: 0;
   border: 0;
+  box-sizing: border-box;
   font-size: 16px;
 }
 
 body{
   font-family: 'Poppins', sans-serif;
   background-color:papayawhip;
+  width: 100vw;
+  height: 100vh;
 }
 
 h1{
@@ -68,12 +71,12 @@ nav{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 100px;
 }
 
-.hello{
+.title{
   display: block;
-  padding-bottom: 100px;
-  margin-top: 200px;
+  margin: 100px 0;
 }
 
 .product-ctn{
@@ -81,7 +84,13 @@ nav{
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 10px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 400px);
+  grid-gap: 10px;
 }
 
 .product-item{
@@ -144,5 +153,20 @@ nav{
   border: 0;
   padding: 0 20px;
   background-color: blueviolet;
+  color: white;
+}
+
+.search-redirect{
+  display: flex;
+  align-items: center;
+  height: 3em;
+  border-radius: 30px;
+  border: 0;
+  padding: 0 20px;
+  background-color: blueviolet;
+  margin: 100px 0;
+}
+
+.search-redirect a {
   color: white;
 }
