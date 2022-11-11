@@ -33,7 +33,7 @@ router.post('/signup', async (req, res) => {
 
 /*------------------ // LOGIN ------------------*/
 
-router.get('/login', (req, res) => {
+router.get('/login',isLoggedOut, (req, res) => {
   res.render('auth/login')
 })
 
@@ -70,7 +70,7 @@ router.post('/login', async (req, res) => {
 
 /*------------------ // LOGOUT ------------------*/
 
-router.get('/logout', (req, res) => {
+router.get('/logout',isLoggedIn, (req, res) => {
   req.session.destroy(err => {
     if (err) next(err);
     res.redirect('/');

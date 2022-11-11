@@ -150,11 +150,22 @@ router.post('/profile', async (req, res) => {
 /*------------------ CREATE PRODUCT ------------------*/
 /*------ Should be accessible only for the Admin -----*/
 
-router.get('/create', (req, res, next) => {
-  res.render('create');
+router.get('/create', isLoggedIn, async (req, res, next) => {
+  try {
+    const user = req.session.user;
+    if(user.username === 'tahaki' || user.username === 'Etienne')
+    {
+      res.render('create');
+    }
+    else{
+      res.redirect('/profile');
+    }
+  } catch (error) {
+    console.log(error);
+  }
 })
 
-router.post('/create', async (req, res, next) => {
+router.post('/create',isLoggedIn, async (req, res, next) => {
   try {
     const { name, region, designation, type, date, picture, price } = req.body;
     await Product.create({
@@ -172,13 +183,13 @@ router.post('/create', async (req, res, next) => {
   }
 })
 
-router.get('/addAddress', (req, res, next) => {
+router.get('/addAddress',isLoggedIn, (req, res, next) => {
   res.render('addAddress');
 })
 
 /*------------------ // CREATE ADDRESS ------------------*/
 
-router.post('/addAddress', async (req, res, next) => {
+router.post('/addAddress',isLoggedIn, async (req, res, next) => {
   const user = req.session.user;
   try {
     await addressDB.create({
@@ -198,7 +209,7 @@ router.post('/addAddress', async (req, res, next) => {
 
 /*------------------ // DELETE ADDRESS ------------------*/
 
-router.post('/deleteAddress/:id',async(req, res, next) => {
+router.post('/deleteAddress/:id',isLoggedIn, async(req, res, next) => {
   
   try {
     await addressDB.findOneAndDelete({ _id: req.params.id })
