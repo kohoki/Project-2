@@ -8,10 +8,10 @@
         <h3>Update your infos</h3>
         <div class="update-infos">
           <form class='update-form' method="POST" action="/profile">
-            <label class="update-label"><input class="input" type="text" name="fName" value="<%= user.fName %>"  /></label>
-            <label class="update-label"><input class="input" type="text" name="lName" value="<%= user.lName %> " /></label>
-            <label class="update-label"><input class="input" type="text" name="email" value="<%= user.email %> " /></label>
-            <label class="update-label"><input class="input" type="number" name="credit" value="<%= user.credit %> " /></label>
+            <label class="update-label"><input class="input" type="text" placeholder='First Name' name="fName" value="<%= user.fName %>"  /></label>
+            <label class="update-label"><input class="input" type="text" placeholder='Last Name' name="lName" value="<%= user.lName %> " /></label>
+            <label class="update-label"><input class="input" type="text" placeholder='e-mail' name="email" value="<%= user.email %> " /></label>
+            <label class="update-label"><input class="input" type="number" placeholder='Wallet' name="credit" value="<%= user.credit %> " /></label>
 
             <button class='btn' type="submit">Update</button>
           </form>
@@ -43,7 +43,7 @@
             <button class='btn' type="submit">+</button>
           </form>
           </div> <!-- close add-new-address -->
-        </div> <!-- close address-item -->
+        </div> <!-- close address-ctn -->
       </div> <!-- close infos-ctn -->
     </div> <!-- close top-info -->
   </div> <!-- close user-ctn-->

@@ -1,14 +1,21 @@
-<h1>Sign up</h1>
-<form method="POST" action="/auth/signup">
-  <label>Username:<input type="text" name="username" required /></label>
-  <label
-    >Email:<input <% if (typeof errorMessage !== "undefined") { %> style="border-color: red;" <% }
-    %> type="email" name="email" required /></label
-  >
-  <label>Password:<input type="password" name="password" required /></label>
-  <button type="submit">Sign Up</button>
-</form>
+<div class="main-ctn">
 
-<% if (typeof errorMessage !== "undefined") { %>
-<p><%= errorMessage %></p>
-<% } %>
+  <h1>Sign up</h1>
+
+  <div class="auth-form signup">
+
+  <form method="POST" action="/auth/signup">
+    <label class="label"><input class='input' placeholder='Username' type="text" name="username" required /></label>
+    <label class="label"><input class='input' placeholder='e-mail' <% if (typeof errorMessage !== "undefined") { %> style="border-color: red;" <% }
+      %> type="email" name="email" required /></label>
+    <label class="label"><input class='input' placeholder='Password' type="password" name="password" required /></label>
+    <button class='btn' type="submit">Sign Up</button>
+  </form>
+
+  </div>
+
+  <% if (typeof errorMessage !== "undefined") { %>
+  <p><%= errorMessage %></p>
+  <% } %>
+
+</div>
