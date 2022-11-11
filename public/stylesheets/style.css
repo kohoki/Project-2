@@ -45,10 +45,6 @@ nav{
   margin-top: 200px;
 }
 
-.index-main{
-  padding-bottom: 200px;
-}
-
 .menu{
   width: 100vw;
   display: flex;
@@ -121,12 +117,17 @@ nav{
 }
 
 .product-item{
-  background-color: white;
+  background-color: whitesmoke;
   width: 20em;
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 8px;
+  
+}
+
+.product-item form{
+  width: 100%;
 }
 
 .product-data {
@@ -137,11 +138,12 @@ nav{
 }
 
 .item-img-ctn img{
-  background-color: #EAECEE;
+  background-color: whitesmoke;
   display: block;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
-  width: 20em;
+  width: 10em;
+  padding: 2em 0;
   object-fit: cover;
 }
 
@@ -171,6 +173,7 @@ nav{
 .qty-selector{
   height: 2em;
   margin-right: 0.5em;
+  background-color: whitesmoke;
 }
 
 .btn {
@@ -280,7 +283,7 @@ nav{
   text-align: center;
   margin: 0.5em;
   padding: 0.8em;
-  background-color: #EAECEE;
+  background-color: whitesmoke;
 }
 
 .address-ctn {
@@ -296,7 +299,7 @@ nav{
   display: flex;
   padding: 1.2em;
   margin: 0 0.5em;
-  background-color: #EAECEE;
+  background-color: whitesmoke;
   border-radius: 8px;
   text-align: left;
 }
