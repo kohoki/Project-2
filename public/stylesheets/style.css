@@ -101,6 +101,11 @@ nav{
   margin: 100px 0;
 }
 
+.sub-title{
+  display: block;
+  margin: 50px 0;
+}
+
 .product-ctn{
   display: flex;
   flex-direction: row;
