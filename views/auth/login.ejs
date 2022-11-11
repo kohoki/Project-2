@@ -1,12 +1,19 @@
-<h1>Login</h1>
+<div class="main-ctn">
 
+  <h1>Log in</h1>
 
-<form method="POST" action="/auth/login">
-  <label>Username:<input type="text" name="username" required /></label>
-  <label>Password:<input type="password" name="password" required /></label>
-  <button type="submit">Login</button>
-</form>
+  <div class="auth-form signup">
 
-<% if (typeof errorMessage !== 'undefined') { %>
+    <form method="POST" action="/auth/login">
+      <label class="label"><input class='input' placeholder='Username' type="text" name="username" required /></label>
+      <label class="label"><input class='input' placeholder='Password' type="password" name="password" required /></label>
+      <button class='btn' type="submit">Login</button>
+    </form>
+
+  </div>
+
+  <% if (typeof errorMessage !== 'undefined') { %>
 <p style="color: red"><%= errorMessage %></p>
 <% } %>
+
+</div>

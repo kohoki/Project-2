@@ -1,65 +1,99 @@
-<h2>Buy</h2>
-
-<% sCardProducts.forEach(element => { %>
-    <% let id1 =  "" + element.pId%>
-    <% allProducts.forEach(product => { %>
-        <% let id2 = "" + product._id %>
-        <% if (id1 === id2) { %>
-            <p>Name: <%= product.name %></p>
-            <p>Date: <%= product.date%></p>
-            <p>Quantity: <%= element.quantity%></p>
-            <form method="POST" action="/deleteFromPurchase/<%= element._id %>">
-                <button type="submit">delete</button>
-            </form>
-            <p>---------------------------</p>
-       <% } %>
-       
+<div class="main">
+  <div class="title">
+  <h2>Buy</h2>
+  </div>
+  <div class="shopping-cart">
+    <% sCardProducts.forEach(element=> { %>
+      <% let id1="" + element.pId%>
+        <% allProducts.forEach(product=> { %>
+          <% let id2="" + product._id %>
+            <% if (id1===id2) { %>
+              <div class="sc-item">
+                <div class="sc-data">
+                  <div class="sc-item-img-ctn">
+                    <img src="<%= product.picture %>" alt="">
+                  </div>
+                  <div class="sc-item-info-ctn">
+                    <h3 class="name">
+                      <%= product.name %>
+                    </h3>
+                    <p class="date">
+                      <%= product.date %>
+                    </p>
+                    <p class="designation">
+                      <%= product.designation %>
+                    </p>
+                  </div>
+                  <div class="sc-item-qty">
+                    <p>
+                      <%= element.quantity%>
+                    </p>
+                  </div>
+                </div>
+                <div class="remove-btn">
+                  <form method="POST" action="/deleteFromShoppingCard/<%= element._id %>">
+                    <button class='btn' type="submit">Remove</button>
+                  </form>
+                </div>
+              </div>
+        <% } %>
+      <% }) %>
     <% }) %>
-<% }) %>
+  </div>
 
-<h3>Sent to:</h3>
-<form method="POST" action="/purchase/buy">
-<% if(listOfAddresses.length > 0) { %>
-  
-    <% listOfAddresses.forEach(element => { %>
-    <fieldset>
-      <p></p>
-    <div>First Name: <%= element.fName  %></div>
-    <div>Last Name: <%= element.lName  %></div>
-    <div>Address Line: <%= element.aLine  %></div>
-    <div>City: <%= element.city  %></div>
-    <div>Zip/Postal Code: <%= element.zip  %></div>
-    <div>Country: <%= element.country  %></div>
-    <input type="radio" name="_id" value="<%= element._id %>" checked>
-    
-    <p></p>
-  </fieldset>
-  <p></p>
-  <%  }); %> 
-<% } else { %>
-  <p>No Addresses in your Database</p>
-  <a href="/addAddress">Add Adress please :-)</a>
-<% } %>
-
-<p></p>
-
-<p>Total Value: <%= sumAll %> gold coins</p>
-<p>Your Credit: <%= user.credit %> gold coins</p>
-<% if ((user.credit - sumAll) < 0) {%>
-    <p>Not enough Money - sry</p>
-    <p>Please update your Credit.</p>
-    <a href="/profile">Update your Credit</a>
-    <% }else if (sCardProducts < 1){ %>
-        <p>NO Products to pay for :-( </p>
-    
-        
-    <% } else if (listOfAddresses.length < 1) { %>
-        <p>where should we send the products</p>
-    
-    <% } else { %>
-      
-      <p>xxxxxxxxxxxxxxxxxxxxx</p>
-      <button type="submit">Buy</button>
-      <p>xxxxxxxxxxxxxxxxxxxxx</p>
-      </form>
+  <div class="purchase-infos">
+  <h3>Delivery address</h3>
+  <form method="POST" action="/purchase/buy">
+    <div class="address-ctn">
+      <% if(listOfAddresses.length > 0) { %>
+          <% listOfAddresses.forEach((element, index) => { %>
+            <div class="address-item">
+              <fieldset>
+                <div class="top">
+                <p class="address-index">Address <%= index + 1 %></p>
+                  <div><%= element.fName  %> <%= element.lName  %></div>
+                  <div><%= element.aLine  %></div>
+                  <div><%= element.city  %></div>
+                  <div><%= element.zip  %></div>
+                  <div><%= element.country  %></div>
+                </div>
+                <div class="bottom">
+                  <input class='checkmark' type="radio" name="_id" value="<%= element._id %>" checked>
+                </div>
+              </fieldset>
+            </div>
+          <%  }); %> 
+      <% } else { %>
+        <div class="no-address">
+          <p>You don't have an address yet!</p>
+          <div class="add-new-address">
+            <a href="/addAddress">Add a new address</a>
+          </div> <!-- close add-new-address -->
+        </div>
       <% } %>
+    </div>
+    <div class="sc-purchase-data">
+      
+      <% if ((user.credit - sumAll) < 0) { %>
+          <p>Not enough Money - sry</p>
+          <p>Please update your Credit.</p>
+          <a href="/profile">Update your Credit</a>
+      
+      <% } else if (listOfAddresses.length < 1) { %>
+          <span></span>
+      
+      <% } else { %>
+        <button class='btn purchase-btn' type="submit">Complete Purchase</button>
+        </form>
+      <% } %>
+      <div class="sc-total pay">
+      <p>Total: <%= sumAll %>€</p>
+      </div>
+      <div class="sc-wallet pay">
+      <p>Your Wallet: <%= user.credit %>€</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+  

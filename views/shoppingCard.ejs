@@ -1,33 +1,53 @@
-<h2>Your Shopping Card</h2>
-
-<% sCardProducts.forEach(element => { %>
-    <% let id1 =  "" + element.pId%>
-    <% allProducts.forEach(product => { %>
-        <% let id2 = "" + product._id %>
-        <% if (id1 === id2) { %>
-            <p>Name: <%= product.name %></p>
-            <p>Date: <%= product.date%></p>
-            <p>Region: <%= product.region%></p>
-            <p>Quantity: <%= element.quantity%></p>
-            <form method="POST" action="/deleteFromShoppingCard/<%= element._id %>">
-                <button type="submit">delete Product</button>
-            </form>
-            <p>---------------------------</p>
-       <% } %>
-       
+<div class="main">
+    <div class="title">
+    <h2>Your Cart</h2>
+    </div>
+    <div class="shopping-cart">
+    <% sCardProducts.forEach(element => { %>
+        <% let id1 =  "" + element.pId%>
+        <% allProducts.forEach(product => { %>
+            <% let id2 = "" + product._id %>
+            <% if (id1 === id2) { %>
+            <div class="sc-item">
+                <div class="sc-data">
+                    <div class="sc-item-img-ctn">
+                        <img src="<%= product.picture %>" alt="">
+                    </div>
+                    <div class="sc-item-info-ctn">
+                        <h3 class="name">
+                            <%= product.name %>
+                        </h3>
+                        <p class="date">
+                            <%= product.date %>
+                        </p>
+                        <p class="designation">
+                            <%= product.designation %>
+                        </p>
+                    </div>
+                    <div class="sc-item-qty">
+                        <p><%= element.quantity%></p>
+                    </div>
+                </div>
+                <div class="remove-btn">
+                    <form method="POST" action="/deleteFromShoppingCard/<%= element._id %>">
+                        <button class='btn' type="submit">Remove</button>
+                    </form>
+                </div>
+            </div>
+        <% } %>  
+        <% }) %>
     <% }) %>
-<% }) %>
 
-<% if(sCardProducts.length >= 1 ) {%>
-    <p>Total Value: <%= sumAll %> gold coins</p>
-    <form method="get" action="/purchase">
-        <p>xxxxxxxxxxxxxxxxxxxxx</p>
-        <button type="submit">i want to buy all of it</button>
-        <p>xxxxxxxxxxxxxxxxxxxxx</p>
-    </form>
-<% }else{ %>
-    <p>is empty :-( </p>
-<% } %>
-
-
-
+        <div class="sc-purchase-data">
+            <% if(sCardProducts.length >= 1 ) {%>
+                <p>Total: <%= sumAll %>€</p>
+                <form method="get" action="/purchase">
+                    <button class='btn' type="submit">Purchase</button>
+                </form>
+            <% }else{ %>
+                <p>Your cart is empty :-(</p>
+                <a href="/allProducts"> Go back to products page</a>
+            <% } %>
+        </div> <!-- close purchase data -->
+    </div> <!-- close shopping cart-->
+</div> <!-- close main -->
