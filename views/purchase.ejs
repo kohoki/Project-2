@@ -1,5 +1,7 @@
 <div class="main">
+  <div class="title">
   <h2>Buy</h2>
+  </div>
   <div class="shopping-cart">
     <% sCardProducts.forEach(element=> { %>
       <% let id1="" + element.pId%>
@@ -41,15 +43,14 @@
 
   <div class="purchase-infos">
   <h3>Delivery address</h3>
-
   <form method="POST" action="/purchase/buy">
     <div class="address-ctn">
       <% if(listOfAddresses.length > 0) { %>
           <% listOfAddresses.forEach((element, index) => { %>
             <div class="address-item">
               <fieldset>
-                <p class="address-index">Address <%= index + 1 %></p>
                 <div class="top">
+                <p class="address-index">Address <%= index + 1 %></p>
                   <div><%= element.fName  %> <%= element.lName  %></div>
                   <div><%= element.aLine  %></div>
                   <div><%= element.city  %></div>
@@ -57,37 +58,42 @@
                   <div><%= element.country  %></div>
                 </div>
                 <div class="bottom">
-                  <input type="radio" name="_id" value="<%= element._id %>" checked>
+                  <input class='checkmark' type="radio" name="_id" value="<%= element._id %>" checked>
                 </div>
               </fieldset>
             </div>
           <%  }); %> 
       <% } else { %>
-        <p>You don't have an address yet!</p>
-        <a href="/addAddress">Add Adress please :-)</a>
+        <div class="no-address">
+          <p>You don't have an address yet!</p>
+          <div class="add-new-address">
+            <a href="/addAddress">Add a new address</a>
+          </div> <!-- close add-new-address -->
+        </div>
       <% } %>
     </div>
-
-  <p>Total Value: <%= sumAll %> gold coins</p>
-  <p>Your Credit: <%= user.credit %> gold coins</p>
-  <% if ((user.credit - sumAll) < 0) {%>
-      <p>Not enough Money - sry</p>
-      <p>Please update your Credit.</p>
-      <a href="/profile">Update your Credit</a>
-      <% }else if (sCardProducts < 1){ %>
-          <p>NO Products to pay for :-( </p>
+    <div class="sc-purchase-data">
       
-          
+      <% if ((user.credit - sumAll) < 0) { %>
+          <p>Not enough Money - sry</p>
+          <p>Please update your Credit.</p>
+          <a href="/profile">Update your Credit</a>
+      
       <% } else if (listOfAddresses.length < 1) { %>
-          <p>where should we send the products</p>
+          <span></span>
       
       <% } else { %>
-        
-        <p>xxxxxxxxxxxxxxxxxxxxx</p>
-        <button type="submit">Buy</button>
-        <p>xxxxxxxxxxxxxxxxxxxxx</p>
+        <button class='btn purchase-btn' type="submit">Complete Purchase</button>
         </form>
-        <% } %>
+      <% } %>
+      <div class="sc-total pay">
+      <p>Total: <%= sumAll %>€</p>
+      </div>
+      <div class="sc-wallet pay">
+      <p>Your Wallet: <%= user.credit %>€</p>
+      </div>
+
+    </div>
   </div>
 </div>
   
